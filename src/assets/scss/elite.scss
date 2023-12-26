@@ -1,0 +1,144 @@
+li.test.nav-item {
+  width: 50%;
+}
+
+// .elite-coverages-tab .column-tab {
+//   background: #252362;
+//   border: 1px solid #a5a5a5;
+//   min-height: 114px;
+// }
+p.column-tab-title {
+  background: #252362;
+  border: 1px solid #a5a5a5;
+  min-height: 114px;
+  color: #fff;
+  padding: 12px 8px;
+  width: 100%;
+  line-height: 1.5em;
+  letter-spacing: 0.3px;
+}
+.col-lg-3 {
+  padding: 0px;
+}
+.elite-coverages-tab {
+  width: 100%;
+  margin: 30px auto 0;
+  box-shadow: 0 8px 12px 0 #ddd;
+}
+.elite-coverages-tab section div {
+  padding: 20px;
+  width: 100%;
+  line-height: 1.5em;
+  letter-spacing: 0.3px;
+  color: #444;
+}
+.elite-coverages-tab .column-tab-title {
+  margin-bottom: 0;
+}
+
+.column-tab-title {
+  font-weight: 500;
+}
+p.tab-content.text-black {
+  margin-bottom: 0;
+  font-size: 25px;
+  border: 1px solid #a5a5a5;
+  border-top: none;
+  min-height: 50px;
+  padding-top: 6px;
+}
+
+.elite-co-insurance-tab {
+  width: 100%;
+  margin: 30px auto 0;
+  box-shadow: 0 8px 12px 0 #ddd;
+}
+.elite-co-insurance-tab p {
+  padding: 20px 60px;
+}
+a.Tablehead.nav-link {
+  background: #fff;
+  color: #111;
+  position: relative;
+  font-weight: 600;
+  margin-top: -9px;
+  border: 0;
+  font-size: 15px;
+  padding: 15px 50px;
+}
+h2.text-blue.text-center {
+  font-weight: 500;
+}
+h3.text-black.text-center.py-3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+.plan-btn {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  background: #252362;
+  border: 2px solid #252362;
+  color: #fff;
+  padding: 5px 30px;
+  border-radius: 50px;
+  transition: 0.5s;
+  font-size: 16px;
+  margin-top: 0;
+}
+
+// CTA Section
+.elite-cta-hero-section-bg {
+  background: url("../imgs/cta/cta-bg.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  opacity: 0.99;
+}
+// .elite-cta-hero-section-bg::before{
+
+// }
+#elite-cta-section .buy-now-btn {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  background: #fff;
+  border: 2px solid #fff;
+  color: #252362;
+  padding: 8px 50px;
+  border-radius: 50px;
+  transition: 0.5s;
+  font-weight: 500;
+  margin-top: 20px;
+}
+section#elite-section7 {
+  padding-bottom: 100px;
+}
+
+#elite-section7 .first-paragraph {
+  margin-bottom: 0;
+}
+#elite-section7 p {
+  line-height: 2;
+}
+
+#elite-section7 .blue-bg {
+  margin-top: 50px;
+  padding: 40px 50px 45px;
+  box-shadow: 0 0 12px 0 #ddd;
+}
+#elite-section7 .blue-bg {
+  background: #252362;
+}
+
+#elite-section7 .white-bg {
+  margin-top: 50px;
+  padding: 40px 50px 20px;
+  box-shadow: 0 0 12px 0 #ddd;
+}
