@@ -24,10 +24,10 @@ export default function EasySelect() {
   //   if (filter !== ele) setFilter(ele);
   // };
   // const Senddata = {};
-  const maxDate = () => {
-    const today = new Date().toISOString().split("T")[0];
-    return today;
-  };
+  // const maxDate = () => {
+  //   const today = new Date().toISOString().split("T")[0];
+  //   return today;
+  // };
 
   // addition one day open
   const today = new Date();
@@ -70,22 +70,23 @@ export default function EasySelect() {
       toDate: toDate,
     };
     setobj(Senddata);
-    if (!area && !maximum) {
-      setError(true);
-    }
-    if (area && maximum) {
-      axiosConfig
-        .post(`/user/adminPlanlist`, Senddata)
-        .then(response => {
-          user.setProductList(response.data);
-          setIsData(!isData);
-          console.log(response.data);
-          setPlanList(response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
+    // if (!area && !maximum) {
+    //   setError(true);
+    // }
+    // if (area && maximum) {
+    //   axiosConfig
+    //     .post(`/user/adminPlanlist`, Senddata)
+    //     .then(response => {
+    //       user.setProductList(response.data);
+    //       setIsData(!isData);
+    //       console.log(response.data);
+    //       setPlanList(response.data);
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // }
+    setIsData(!isData);
   };
   return (
     <LayoutOne headerTop="visible">
@@ -126,14 +127,13 @@ export default function EasySelect() {
                                 <div className="col-md-6 col-lg-6 pl-0 start-date-title ">
                                   <lable className="dates">Start Date</lable>
                                   <input
-                                    required
+                                    // required
                                     type="date"
                                     name="fromDate"
                                     value={fromDate}
                                     min={minDate}
                                     className="dropped"
                                     onChange={e => {
-                                      debugger;
                                       setFromDate(e.target.value);
                                       setToDate(e.target.value + 5);
                                     }}
@@ -143,7 +143,7 @@ export default function EasySelect() {
                                   <lable className="dates">End Date</lable>
                                   <input
                                     type="date"
-                                    required
+                                    // required
                                     name="toDate"
                                     value={toDate}
                                     min={AddThreeDay}
@@ -216,7 +216,7 @@ export default function EasySelect() {
                         <div className="col-md-4">
                           <lable className="dob">DOB</lable>
                           <input
-                            required
+                            // required
                             type="date"
                             name="dateOfBirth"
                             value={dateOfBirth}

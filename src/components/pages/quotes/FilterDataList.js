@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import "../../../assets/scss/easySelect.scss";
 import axiosConfig from "../../../axiosConfig";
 import UserContext from "../../../Context/Context";
-
+import ReactHtmlParser from "react-html-parser";
 export default function Filters({
   PlanList,
   setPlanList,
@@ -12,13 +12,14 @@ export default function Filters({
   Senddata,
 }) {
   const [listData, setListData] = useState([]);
+
   const [Index, setIndex] = useState(2);
   const user = useContext(UserContext);
   const history = useHistory();
 
-  const OnHandleClick = (e, data, i) => {
-    setIndex(i);
-    console.log(data);
+  const OnHandleClick = async (e, data, ind) => {
+    setIndex(ind);
+    // console.log(data);
     e.preventDefault();
     var ActiveBtn = document.getElementById("btnList");
     var btns = ActiveBtn.getElementsByClassName("btn");
@@ -30,7 +31,17 @@ export default function Filters({
       });
     }
     if (data === "All") {
-      // console.log(user?.ProductList);
+      console.log(user?.ProductList);
+      await axiosConfig
+        .get(`/plan/view-plan`)
+        .then(response => {
+          console.log(response.data.Plan);
+          setListData(response.data.Plan);
+          // setPlanList(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
       // axiosConfig
       //   .post(`/user/adminPlanlist`, Senddata)
       //   .then((response) => {
@@ -41,13 +52,15 @@ export default function Filters({
       //     console.log(error);
       //   });
       // console.log(PlanList);
-      setPlanList(user?.ProductList);
+      // setPlanList(user?.ProductList);
+      // setPlanList(response.data.Plan);
     } else {
       axiosConfig
-        .get(`/user/PlanlistByFilterdata/${data}`)
+        .get(`/plan/view-plan`)
         .then(response => {
-          console.log(response.data);
-          setPlanList(response.data);
+          console.log(response.data.Plan);
+          setListData(response.data.Plan);
+          // setPlanList(response.data);
         })
         .catch(error => {
           console.log(error);
@@ -166,43 +179,58 @@ export default function Filters({
                     </a>
                   </li>
                 </ul>
-                {/* <section> */}
 
-                {PlanList &&
-                  PlanList?.map((ele, i) => (
+                {listData &&
+                  listData?.map((ele, i) => (
                     <>
                       <div key={i} className="container my-5 tableDesign">
                         <Row>
                           <Col lg="12" md="12" sm="12">
                             <div>
-                              <h3 className="my-2">
-                                {ele?.planname?.planName}
-                              </h3>
+                              <div className="d-flex">
+                                <div>
+                                  <h3 className="my-2">
+                                    {ele?.policy_ID_fk?.policyName}
+                                  </h3>
+                                </div>
+                                <div>
+                                  <h3 className="my-2">
+                                    {ele?.policy_ID_fk?.policyName}
+                                  </h3>
+                                </div>
+                              </div>
                               <hr />
                               <Row>
                                 <Col lg="7" md="6" sm="12">
                                   <ul className="center-block">
-                                    {<li>{ele?.highlight_desc}</li>}
+                                    {
+                                      <li>
+                                        {ReactHtmlParser(
+                                          ele?.policy_ID_fk?.policyDesc
+                                        )}
+                                      </li>
+                                    }
                                     {/* <li>
-                                    Pre-Existing Conditions Coverage $300)
-                                  </li>
-                                  <li>Covers COVID-19 Testing & Treatment</li>
-                                  <li>BMI Makes all Appointments</li>
-                                  <li>
-                                    Pays 100% of all Eligible Medical Expense
-                                    directly to provides
-                                  </li>
-                                  <li>Policy Maximums up to $10,000</li>
-                                  <li> Emergency Dental Benefits</li>
-                                  <li> Trip Interruption Benefit</li>
-                                  <li>
-                                    No Claims Hassle as BMI Handles all claims
-                                    directly
-                                  </li>
-                                  <li>
-                                    Quotes are based on 5 days min purchase and
-                                    buying more days get you reduced prices.
-                                  </li> */}
+                                      Pre-Existing Conditions Coverage $300)
+                                    </li>
+                                    <li>Covers COVID-19 Testing & Treatment</li>
+                                    <li>BMI Makes all Appointments</li>
+                                    <li>
+                                      Pays 100% of all Eligible Medical Expense
+                                      directly to provides
+                                    </li>
+                                    <li>Policy Maximums up to $10,000</li>
+                                    <li> Emergency Dental Benefits</li>
+                                    <li> Trip Interruption Benefit</li>
+                                    <li>
+                                      No Claims Hassle as BMI Handles all claims
+                                      directly
+                                    </li>
+                                    <li>
+                                      Quotes are based on 5 days min purchase
+                                      and buying more days get you reduced
+                                      prices.
+                                    </li> */}
                                   </ul>
                                 </Col>
                                 <Col lg="5" md="6" sm="12">
@@ -210,30 +238,33 @@ export default function Filters({
                                     <Col lg="6" md="12">
                                       <h3> Plan Maximum:</h3>
                                       <select
-                                        class="form-control"
+                                        className="form-control"
                                         aria-label="Default select example"
                                       >
-                                        <option value={ele?.plan_max}>
-                                          {ele?.plan_max}
+                                        <option value={ele?.planMaximum}>
+                                          {ele?.planMaximum}
                                         </option>
                                       </select>
                                     </Col>
                                     <Col lg="6" md="12">
                                       <h3> Plan Deductible:</h3>
                                       <select
-                                        class="form-control"
+                                        className="form-control"
                                         aria-label="Default select example"
                                       >
-                                        <option value={ele?.plan_deductible}>
-                                          {ele?.plan_deductible}
+                                        <option value={ele?.planDeductible}>
+                                          {ele?.planDeductible}
                                         </option>
                                       </select>
                                     </Col>
                                     <Col lg="12" md="12" sm="12">
                                       <div className="subheading">
-                                        <h3>Prex-Deductible: $0</h3>
                                         <h3>
-                                          Prex-Coverage Amt: ${ele?.coverageAmt}
+                                          Prex-Deductible:${ele?.planDeductible}
+                                        </h3>
+                                        <h3>
+                                          Prex-Coverage Amt: $
+                                          {ele?.preexMaxCoverage}
                                         </h3>
                                       </div>
                                     </Col>
@@ -272,14 +303,14 @@ export default function Filters({
                               <Col lg="6" md="6" sm="12" className="">
                                 <a href="#">
                                   <button className="custombtn">
-                                    Plan Details{" "}
+                                    Plan Details
                                   </button>
                                 </a>
                               </Col>
                               <Col lg="6" md="6" sm="12" className=" ">
                                 <a href="#">
                                   <button className="custombtn">
-                                    View Brochure{" "}
+                                    View Brochure
                                   </button>
                                 </a>
                               </Col>
@@ -305,7 +336,7 @@ export default function Filters({
                                     <p className="form-control-static">
                                       ${ele?.total}
                                     </p>
-                                  </div>{" "}
+                                  </div>
                                 </h5>
                               </Col>
                             </Row>
@@ -319,7 +350,7 @@ export default function Filters({
           </div>
         </section>
       </>
-      {/* <div className="container my-5">
+      <div className="container my-5">
         <div className="row">
           <div className="col-lg-12">
             <div className="quote-container">
@@ -368,7 +399,12 @@ export default function Filters({
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </>
   );
 }
+// // Example of prop type declaration in SliderDemo component
+// SliderDemo.propTypes = {
+//   data: PropTypes.object.isRequired,
+//   // other prop types...
+// };
