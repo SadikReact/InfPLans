@@ -8,7 +8,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import astrologinbg from "../../assets/img/astrologin-bg.jpg";
 import { Container, Row, Col, Input, Form, Button, Label } from "reactstrap";
-import Avilitiy from "./astrologerpages/Avilitiy";
+// import Avilitiy from "./astrologerpages/Avilitiy";
 class AstrologerSignup extends React.Component {
   constructor() {
     super();
@@ -50,7 +50,6 @@ class AstrologerSignup extends React.Component {
       img: {},
       min_amount: "",
       max_amount: "",
-
       Monday: "",
       Tuesday: "",
       Wednesday: "",
@@ -142,20 +141,10 @@ class AstrologerSignup extends React.Component {
     data.append("status", this.state.status);
     data.append("callCharge", this.state.callCharge);
     data.append("fullname", this.state.fullname);
-    // data.append("availability", this.state.availability);
     data.append("max_amount", this.state.max_amount);
     data.append("min_amount", this.state.min_amount);
     data.append("password", this.state.password);
     data.append("cnfmPassword", this.state.cnfmPassword);
-    // data.append("sunday", this.state.Sunday);
-    // data.append("monday", this.state.Monday);
-    // data.append("tuesday", this.state.Tuesday);
-    // data.append("wednesday", this.state.Wednesday);
-    // data.append("thursday", this.state.Thursday);
-    // data.append("friday", this.state.Friday);
-    // data.append("saturday", this.state.Saturday);
-    // data.append("email", this.state.email);
-    // data.append("mobile", this.state.mobile);
     if (this.state.selectedFile !== null) {
       data.append("img", this.state.selectedFile);
     }

@@ -12,7 +12,6 @@ import { ToastProvider } from "react-toast-notifications";
 import { multilanguage, loadLanguages } from "redux-multilanguage";
 import { connect } from "react-redux";
 import { BreadcrumbsProvider } from "react-breadcrumbs-dynamic";
-// import TermsOfUse from "./wrappers/myPage/TermsOfUse";
 import {} from "react";
 import { history } from "./history";
 
@@ -242,9 +241,9 @@ const ForgotPassword = lazy(() => import("./pages/other/ForgotPassword"));
 // const AstrologerDetail = lazy(() =>
 //   import("./components/astrology/astrologerdetail")
 // );
-// const AstrologerSignup = lazy(() =>
-//   import("./components/astrology/astrologersignup")
-// );
+const AstrologerSignup = lazy(() =>
+  import("./components/astrology/astrologersignup")
+);
 // const AstrologerLogin = lazy(() =>
 //   import("./components/astrology/astrologerlogin")
 // );
@@ -996,6 +995,10 @@ const App = props => {
                     component={KundaliMatchList}
                   /> */}
                   {/* Other pages */}
+                  <Route
+                    path={process.env.PUBLIC_URL + "/astrologersignup"}
+                    component={AstrologerSignup}
+                  />
                   <Route
                     path={process.env.PUBLIC_URL + "/about"}
                     component={About}

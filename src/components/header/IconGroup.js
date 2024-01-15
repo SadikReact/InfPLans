@@ -11,24 +11,21 @@ import axiosConfig from "../../axiosConfig";
 
 const IconGroup = ({
   currency,
-
   cartData,
   wishlistData,
   compareData,
   deleteFromCart,
   iconWhiteClass,
 }) => {
-  // const [balance, setbalance] = useState("");
   const [carts, setCarts] = useState([]);
 
-  const handleClick = (e) => {
+  const handleClick = e => {
     e.currentTarget.nextSibling.classList.toggle("active");
   };
-  const handleLogout = (e) => {
+  const handleLogout = e => {
     window.localStorage.clear();
     // window.location.reload()
     window.location.replace("/");
-    //  window.location.replace("http://soxypay.com/");
   };
 
   const triggerMobileMenu = () => {
@@ -39,7 +36,7 @@ const IconGroup = ({
   };
 
   //const { id } = useParams();
-  const fetchcarts = async (token) => {
+  const fetchcarts = async token => {
     const { data } = await Axios.get(
       // `http://13.235.180.192/api/admin/cartbycustomer`,
       {
@@ -104,10 +101,10 @@ const IconGroup = ({
 
     axiosConfig
       .get(`/user/viewoneuser/${user_id}`)
-      .then((response) => {
+      .then(response => {
         setCustomer(response.data.data);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
@@ -288,16 +285,16 @@ export const Fetchuserdetail = async () => {
   let user_id = JSON.parse(localStorage.getItem("user_id"));
   await axiosConfig
     .get(`/user/viewoneuser/${user_id}`)
-    .then((response) => {
+    .then(response => {
       sessionStorage.setItem("userBalance", response.data.data.amount);
 
       return response.data.data;
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error);
     });
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     currency: state.currencyData,
     cartData: state.cartData,
@@ -306,7 +303,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     deleteFromCart: (item, addToast) => {
       dispatch(deleteFromCart(item, addToast));
