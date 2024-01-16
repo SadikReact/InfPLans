@@ -144,11 +144,17 @@ const HeroSliderTwentyNine = () => {
                         value={maximum}
                         onChange={e => setMaximum(e.target.value)}
                       >
-                        <option value="Below $5,000,000">
-                          Below $5,000,000
+                        <option value="India">
+                          India
                         </option>
-                        <option value="Below $8,000,000">
-                          Below $8,000,000
+                        <option value="China">
+                        China 
+                        </option>
+                        <option value="Australia">
+                        Australia 
+                        </option>
+                        <option value="Aruba">
+                        Aruba 
                         </option>
                       </select>
                     </div>
