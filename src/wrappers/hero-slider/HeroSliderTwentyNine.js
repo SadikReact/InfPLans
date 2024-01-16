@@ -110,7 +110,7 @@ const HeroSliderTwentyNine = () => {
   };
   return (
     <div className="slider-area">
-      {isData === false ? (
+      {isData === true ? (
         <div className="slider-active nav-style-1">
           <section
             class="home-hero-section-bg"

@@ -8,7 +8,6 @@ import ReactHtmlParser from "react-html-parser";
 export default function Filters({
   PlanList,
   setPlanList,
-  // handleSubmit,
   Senddata,
 }) {
   const [listData, setListData] = useState([]);
@@ -16,10 +15,20 @@ export default function Filters({
   const [Index, setIndex] = useState(2);
   const user = useContext(UserContext);
   const history = useHistory();
-
+useEffect(()=>{
+  axiosConfig
+  .get(`/plan/view-plan`)
+  .then(response => {
+    console.log(response.data.Plan);
+    setListData(response.data.Plan);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+},[])
   const OnHandleClick = async (e, data, ind) => {
+    console.log(data)
     setIndex(ind);
-    // console.log(data);
     e.preventDefault();
     var ActiveBtn = document.getElementById("btnList");
     var btns = ActiveBtn.getElementsByClassName("btn");
@@ -30,6 +39,7 @@ export default function Filters({
         this.className += " active";
       });
     }
+
     if (data === "All") {
       console.log(user?.ProductList);
       await axiosConfig
@@ -37,30 +47,38 @@ export default function Filters({
         .then(response => {
           console.log(response.data.Plan);
           setListData(response.data.Plan);
-          // setPlanList(response.data);
         })
         .catch(error => {
           console.log(error);
         });
-      // axiosConfig
-      //   .post(`/user/adminPlanlist`, Senddata)
-      //   .then((response) => {
-      //     console.log(response.data);
-      //     setPlanList(response.data);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
-      // console.log(PlanList);
-      // setPlanList(user?.ProductList);
-      // setPlanList(response.data.Plan);
-    } else {
-      axiosConfig
+    
+    } 
+    else if(data==="BASIC") {
+    axiosConfig
         .get(`/plan/view-plan`)
         .then(response => {
-          console.log(response.data.Plan);
-          setListData(response.data.Plan);
-          // setPlanList(response.data);
+          debugger
+          console.log(response.data.Plan)
+
+          let keyToFind = 'name';
+          let valueToFind = 'BASIC';
+          let name;
+          let newArr=[]
+          if(response.data.Plan){
+            
+         name= response.data.Plan?.map((val)=>{
+          
+          val.planType.filter(ab => ab.name === valueToFind)&&newArr.push(val)
+         
+         }
+         
+          )
+
+          }
+          console.log("newArr",newArr)
+          setListData(newArr);
+          console.log("name",name)
+        
         })
         .catch(error => {
           console.log(error);
@@ -69,7 +87,7 @@ export default function Filters({
   };
   return (
     <>
-      <>
+     
         <section
           style={{ padding: "0px 0px" }}
           // key={i}
@@ -194,10 +212,11 @@ export default function Filters({
                                   </h3>
                                 </div>
                                 <div>
-                                  <h5 className="my-2">
-                                    {ele?.policy_ID_fk?.policyName}{" "}
-                                    {ele?.planType[0].name}
-                                  </h5>
+                                  <div className="my-2">
+                                    <span className="label label-default m-2">{ele?.policy_ID_fk?.policyName}</span>
+                                    <span className="label label-default">{ele?.planType[0].name}</span>
+                                    
+                                  </div>
                                 </div>
                               </div>
                               <hr />
@@ -237,7 +256,7 @@ export default function Filters({
                                 <Col lg="5" md="6" sm="12">
                                   <Row>
                                     <Col lg="6" md="12">
-                                      <h3> Plan Maximum:</h3>
+                                      <h5> Plan Maximum:</h5>
                                       <select
                                         className="form-control"
                                         aria-label="Default select example"
@@ -248,7 +267,7 @@ export default function Filters({
                                       </select>
                                     </Col>
                                     <Col lg="6" md="12">
-                                      <h3> Plan Deductible:</h3>
+                                      <h5> Plan Deductible:</h5>
                                       <select
                                         className="form-control"
                                         aria-label="Default select example"
@@ -260,13 +279,13 @@ export default function Filters({
                                     </Col>
                                     <Col lg="12" md="12" sm="12">
                                       <div className="subheading">
-                                        <h3>
+                                        <h4 style={{fontSize:"14px",color: "#fff"}}>
                                           Prex-Deductible:${ele?.planDeductible}
-                                        </h3>
-                                        <h3>
+                                        </h4>
+                                        <h4 style={{fontSize:"14px",color: "#fff"}}>
                                           Prex-Coverage Amt: $
                                           {ele?.preexMaxCoverage}
-                                        </h3>
+                                        </h4>
                                       </div>
                                     </Col>
                                     <Col
@@ -350,7 +369,7 @@ export default function Filters({
             </div>
           </div>
         </section>
-      </>
+    
       <div className="container my-5">
         <div className="row">
           <div className="col-lg-12">
