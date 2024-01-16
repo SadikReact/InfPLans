@@ -1883,6 +1883,11 @@ a.default-btn {
     max-width: 1200px;
   }
 }
+@media (min-width: 1200px) {
+  .containersml {
+    max-width: 800px;
+  }
+}
 
 .item-empty-area {
   &__icon {

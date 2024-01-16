@@ -196,7 +196,7 @@ const NavMenu = ({ strings, menuWhiteClass, sidebarMenu }) => {
             </ul>
           </li>
           <li>
-            <Button className="btn btn-primary">Show Plans</Button>
+            <Button className="">Show Plans</Button>
           </li>
         </ul>
       </nav>

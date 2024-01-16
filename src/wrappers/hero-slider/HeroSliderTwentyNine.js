@@ -122,10 +122,10 @@ const HeroSliderTwentyNine = () => {
               Please provide required information so we can process your quote.
             </p>
             <Stepper styleConfig={stepStyleConfig} activeStep={activeStep}>
-              <Step label="Personal info" />
-              <Step label="Career info" />
-              <Step label="Clinic info" />
-              <Step label="Clinic info" />
+              <Step />
+              <Step />
+              <Step />
+              <Step />
             </Stepper>
             {activeStep === 0 ? (
               <>
@@ -191,7 +191,7 @@ const HeroSliderTwentyNine = () => {
                 </div> */}
 
                   {/* <form onSubmit={handleSubmit}> */}
-                  <div className="col-md-9 py-2 col-xs-12">
+                  <div className="col-md-12 py-2 col-xs-12">
                     <input
                       type="email"
                       placeholder="Email Address"
@@ -202,18 +202,20 @@ const HeroSliderTwentyNine = () => {
                     />
                   </div>
                   {formValues.map((element, index) => (
-                    <div className="row" key={index}>
-                      <div className=" col-md-2 py-2 col-xs-12 ">
-                        <span
-                          style={{
-                            fontSize: "19px",
-                            fontWeight: "600",
-                          }}
-                        >
-                          Traveler {index + 1}
-                        </span>
+                    <>
+                      <div className=" col-md-5 py-1 col-xs-12 ">
+                        <div>
+                          <span
+                            style={{
+                              fontSize: "19px",
+                              fontWeight: "600",
+                            }}
+                          >
+                            Traveler {index + 1}
+                          </span>
+                        </div>
                       </div>
-                      <div className="col-md-7 py-2 col-xs-12 ">
+                      <div className="col-md-7 py-1 col-xs-12 ">
                         <input
                           type="date"
                           // name="dateOfBirth"
@@ -244,7 +246,7 @@ const HeroSliderTwentyNine = () => {
                           </span>
                         ) : null}
                       </div>
-                    </div>
+                    </>
                   ))}
 
                   <div className=" my-2">
@@ -295,24 +297,27 @@ const HeroSliderTwentyNine = () => {
                   <h2>When are you Travelling?</h2>
                   <Col className="mb-3" md="6" sm="12">
                     <h5 className="text-bold-500">StartDate and EndDate</h5>
-                    <label htmlFor="startDate">Start Date:</label>
-                    <input
-                      type="date"
-                      id="startDate"
-                      name="startDate"
-                      // min={maxDate()}
-                      min={minDate}
-                      onChange={e => setFromDate(e.target.value)}
-                    ></input>
-                    <label htmlFor="endDate">End Date:</label>
-                    <input
-                      type="date"
-                      id="endDate"
-                      name="endDate"
-                      onChange={e => {
-                        handleTimeChange(e);
-                      }}
-                    ></input>
+                    <div>
+                      <label htmlFor="startDate">Start Date:</label>
+                      <input
+                        type="date"
+                        id="startDate"
+                        name="startDate"
+                        min={minDate}
+                        onChange={e => setFromDate(e.target.value)}
+                      ></input>
+                    </div>
+                    <div>
+                      <label htmlFor="endDate">End Date:</label>
+                      <input
+                        type="date"
+                        id="endDate"
+                        name="endDate"
+                        onChange={e => {
+                          handleTimeChange(e);
+                        }}
+                      ></input>
+                    </div>
                   </Col>
                   <Col className="mb-3" md="6" sm="12">
                     <b>Duration: {duration ? duration : 0} days</b> Start date

@@ -132,7 +132,7 @@ ul.center-block {
   padding: 1px 8px 1px 15px;
   color: green;
   position: absolute;
-  left: 9px;;
+  left: 9px;
   font-weight: 900;
 }
 .para {
@@ -149,6 +149,9 @@ ul.center-block {
   // color: #fff;
 }
 
-a:active{
-  background-color: red;
-}
+// a:active {
+//   background-color: red;
+// }
+// a:active::after {
+//   background-color: red;
+// }

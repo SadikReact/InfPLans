@@ -187,16 +187,17 @@ export default function Filters({
                         <Row>
                           <Col lg="12" md="12" sm="12">
                             <div>
-                              <div className="d-flex">
+                              <div className=" policyName d-flex justify-content-between">
                                 <div>
                                   <h3 className="my-2">
                                     {ele?.policy_ID_fk?.policyName}
                                   </h3>
                                 </div>
                                 <div>
-                                  <h3 className="my-2">
-                                    {ele?.policy_ID_fk?.policyName}
-                                  </h3>
+                                  <h5 className="my-2">
+                                    {ele?.policy_ID_fk?.policyName}{" "}
+                                    {ele?.planType[0].name}
+                                  </h5>
                                 </div>
                               </div>
                               <hr />

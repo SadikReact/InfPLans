@@ -605,7 +605,7 @@ button.swiper-button-prev.ht-swiper-button-nav.gt-1 {
 }
 .zoom-in-zoom-out span {
   font-size: 8px;
-  color: #ffcc01;
+  // color: #ffcc01;
   font-weight: 700;
 }
 
@@ -837,9 +837,9 @@ h3.s-tt {
   margin-top: 10px;
 }
 .product-tab-list a.active h4,
-.product-tab-list a.active .h4 {
-  color: #ffcc01;
-}
+// .product-tab-list a.active .h4 {
+//   color: #ffcc01;
+// }
 .tab-st {
   background: #cccccc1a;
   padding-top: 50px 0px;
@@ -915,7 +915,7 @@ section.dt-astro {
   background: #fff;
   margin: 0 auto;
   padding: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 #00000033, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 20px;
 }
 .active .bs-stepper-circle {
@@ -931,9 +931,9 @@ section.dt-astro {
   background-color: #fff !important;
   border-color: #fff !important;
 }
-.bs-stepper-label {
-  color: #ffcc01 !important ;
-}
+// .bs-stepper-label {
+//   color: #ffcc01 !important ;
+// }
 .astro-login {
   width: 50%;
   padding: 20px;
@@ -945,7 +945,7 @@ section.dt-astro {
 h2.th-1 {
   text-align: center;
   font-weight: bold;
-  color: #ffcc01;
+  // color: #ffcc01;
 }
 h4.th-2 {
   font-size: 18px;
