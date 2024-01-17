@@ -195,7 +195,7 @@ export default function Filters({
                                 </div>
                                 <div>
                                   <h5 className="my-2">
-                                    {ele?.policy_ID_fk?.policyName}{" "}
+                                    {ele?.policy_ID_fk?.policyName}
                                     {ele?.planType[0].name}
                                   </h5>
                                 </div>
