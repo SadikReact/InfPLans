@@ -6,20 +6,33 @@ import axiosConfig from "../../../axiosConfig";
 import UserContext from "../../../Context/Context";
 import ReactHtmlParser from "react-html-parser";
 export default function Filters({
+  duration,
+  fromDate,
+  toDate,
   PlanList,
   setPlanList,
-  // handleSubmit,
   Senddata,
 }) {
   const [listData, setListData] = useState([]);
+  const [bothDates, setbothDates] = useState({});
 
   const [Index, setIndex] = useState(2);
   const user = useContext(UserContext);
   const history = useHistory();
-
+  useEffect(() => {
+    console.log(duration, user.myState);
+    axiosConfig
+      .get(`/plan/view-plan`)
+      .then(response => {
+        setListData(response.data.Plan);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
   const OnHandleClick = async (e, data, ind) => {
+    console.log(data);
     setIndex(ind);
-    // console.log(data);
     e.preventDefault();
     var ActiveBtn = document.getElementById("btnList");
     var btns = ActiveBtn.getElementsByClassName("btn");
@@ -30,6 +43,7 @@ export default function Filters({
         this.className += " active";
       });
     }
+
     if (data === "All") {
       console.log(user?.ProductList);
       await axiosConfig
@@ -37,30 +51,102 @@ export default function Filters({
         .then(response => {
           console.log(response.data.Plan);
           setListData(response.data.Plan);
-          // setPlanList(response.data);
         })
         .catch(error => {
           console.log(error);
         });
-      // axiosConfig
-      //   .post(`/user/adminPlanlist`, Senddata)
-      //   .then((response) => {
-      //     console.log(response.data);
-      //     setPlanList(response.data);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
-      // console.log(PlanList);
-      // setPlanList(user?.ProductList);
-      // setPlanList(response.data.Plan);
-    } else {
+    } else if (data === "BASIC") {
       axiosConfig
         .get(`/plan/view-plan`)
         .then(response => {
-          console.log(response.data.Plan);
-          setListData(response.data.Plan);
-          // setPlanList(response.data);
+          let valueToFind = "BASIC";
+          let newArr = [];
+          if (response.data.Plan) {
+            response.data.Plan.forEach(val => {
+              if (val.planType.some(ab => ab.name === valueToFind)) {
+                newArr.push(val);
+              }
+            });
+          }
+
+          // Now newArr contains the filtered values
+          // You can use newArr as needed in the rest of your code
+          setListData(newArr);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else if (data === "PRE-EX") {
+      axiosConfig
+        .get(`/plan/view-plan`)
+        .then(response => {
+          let valueToFind = "PRE-EX";
+          let newArr = [];
+          if (response.data.Plan) {
+            response.data.Plan.forEach(val => {
+              if (val.planType.some(ab => ab.name === valueToFind)) {
+                newArr.push(val);
+              }
+            });
+          }
+
+          // Now newArr contains the filtered values
+          // You can use newArr as needed in the rest of your code
+          setListData(newArr);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else if (data === "NETWORK") {
+      axiosConfig
+        .get(`/plan/view-plan`)
+        .then(response => {
+          let valueToFind = "NETWORK";
+          let newArr = [];
+          if (response.data.Plan) {
+            response.data.Plan.forEach(val => {
+              if (val.planType.some(ab => ab.name === valueToFind)) {
+                newArr.push(val);
+              }
+            });
+          }
+          setListData(newArr);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else if (data === "TRAVELASSIST") {
+      axiosConfig
+        .get(`/plan/view-plan`)
+        .then(response => {
+          let valueToFind = "TRAVELASSIST";
+          let newArr = [];
+          if (response.data.Plan) {
+            response.data.Plan.forEach(val => {
+              if (val.planType.some(ab => ab.name === valueToFind)) {
+                newArr.push(val);
+              }
+            });
+          }
+          setListData(newArr);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else if (data === "FIXED") {
+      axiosConfig
+        .get(`/plan/view-plan`)
+        .then(response => {
+          let valueToFind = "FIXED";
+          let newArr = [];
+          if (response.data.Plan) {
+            response.data.Plan.forEach(val => {
+              if (val.planType.some(ab => ab.name === valueToFind)) {
+                newArr.push(val);
+              }
+            });
+          }
+          setListData(newArr);
         })
         .catch(error => {
           console.log(error);
@@ -69,118 +155,114 @@ export default function Filters({
   };
   return (
     <>
-      <>
-        <section
-          style={{ padding: "0px 0px" }}
-          // key={i}
-          id="quote-section-1"
-        >
-          <div className="container my-5">
-            <div className="row">
-              <div className="col-lg-12">
-                <ul className=" Btn-list" id="btnList">
-                  <li>
-                    <a
-                      style={{
-                        backgroundColor: `${Index === 1 ? "#252362" : "white"}`,
-                        color: `${Index === 1 ? "white" : ""}`,
-                      }}
-                      className="filter-btn"
-                      onClick={e => OnHandleClick(e, "Filter", 1)}
-                    >
-                      Filter
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      style={{
-                        backgroundColor: `${Index === 2 ? "#252362" : "white"}`,
-                        color: `${Index === 2 ? "white" : ""}`,
-                      }}
-                      onClick={e => OnHandleClick(e, "All", 2)}
-                      className="filter-btn"
-                      href=""
-                    >
-                      All
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={e => OnHandleClick(e, "TRAVELASSIST", 3)}
-                      style={{
-                        backgroundColor: `${Index === 3 ? "#252362" : "white"}`,
-                        color: `${Index === 3 ? "white" : ""}`,
-                      }}
-                      className="filter-btn"
-                    >
-                      TRAVELASSIST
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      style={{
-                        backgroundColor: `${Index === 4 ? "#252362" : "white"}`,
-                        color: `${Index === 4 ? "white" : ""}`,
-                      }}
-                      onClick={e => OnHandleClick(e, "FIXED", 4)}
-                      href=""
-                      className="filter-btn"
-                    >
-                      FIXED
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      style={{
-                        backgroundColor: `${Index === 5 ? "#252362" : "white"}`,
-                        color: `${Index === 5 ? "white" : ""}`,
-                      }}
-                      onClick={e => OnHandleClick(e, "NETWORK", 5)}
-                      href=""
-                      className="filter-btn"
-                    >
-                      NETWORK
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={e => OnHandleClick(e, "BASIC", 6)}
-                      style={{
-                        backgroundColor: `${Index === 6 ? "#252362" : "white"}`,
-                        color: `${Index === 6 ? "white" : ""}`,
-                      }}
-                      className="filter-btn"
-                    >
-                      BASIC
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={e => OnHandleClick(e, "PRE-EX", 7)}
-                      style={{
-                        backgroundColor: `${Index === 7 ? "#252362" : "white"}`,
-                        color: `${Index === 7 ? "white" : ""}`,
-                      }}
-                      className="filter-btn"
-                    >
-                      PRE-EX
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={e => OnHandleClick(e, "EMAIL Quote", 8)}
-                      style={{
-                        backgroundColor: `${Index === 8 ? "#252362" : "white"}`,
-                        color: `${Index === 8 ? "white" : ""}`,
-                      }}
-                      className="filter-btn"
-                    >
-                      EMAIL Quote
-                    </a>
-                  </li>
-                </ul>
+      <section style={{ padding: "0px 0px" }} id="quote-section-1">
+        <div className="container my-5">
+          <div className="row">
+            <div className="col-lg-12">
+              <ul className=" Btn-list" id="btnList">
+                <li>
+                  <a
+                    style={{
+                      backgroundColor: `${Index === 1 ? "#252362" : "white"}`,
+                      color: `${Index === 1 ? "white" : ""}`,
+                    }}
+                    className="filter-btn"
+                    onClick={e => OnHandleClick(e, "Filter", 1)}
+                  >
+                    Filter
+                  </a>
+                </li>
+                <li>
+                  <a
+                    style={{
+                      backgroundColor: `${Index === 2 ? "#252362" : "white"}`,
+                      color: `${Index === 2 ? "white" : ""}`,
+                    }}
+                    onClick={e => OnHandleClick(e, "All", 2)}
+                    className="filter-btn"
+                    href=""
+                  >
+                    All
+                  </a>
+                </li>
+                <li>
+                  <a
+                    onClick={e => OnHandleClick(e, "TRAVELASSIST", 3)}
+                    style={{
+                      backgroundColor: `${Index === 3 ? "#252362" : "white"}`,
+                      color: `${Index === 3 ? "white" : ""}`,
+                    }}
+                    className="filter-btn"
+                  >
+                    TRAVELASSIST
+                  </a>
+                </li>
+                <li>
+                  <a
+                    style={{
+                      backgroundColor: `${Index === 4 ? "#252362" : "white"}`,
+                      color: `${Index === 4 ? "white" : ""}`,
+                    }}
+                    onClick={e => OnHandleClick(e, "FIXED", 4)}
+                    href=""
+                    className="filter-btn"
+                  >
+                    FIXED
+                  </a>
+                </li>
+                <li>
+                  <a
+                    style={{
+                      backgroundColor: `${Index === 5 ? "#252362" : "white"}`,
+                      color: `${Index === 5 ? "white" : ""}`,
+                    }}
+                    onClick={e => OnHandleClick(e, "NETWORK", 5)}
+                    href=""
+                    className="filter-btn"
+                  >
+                    NETWORK
+                  </a>
+                </li>
+                <li>
+                  <a
+                    onClick={e => OnHandleClick(e, "BASIC", 6)}
+                    style={{
+                      backgroundColor: `${Index === 6 ? "#252362" : "white"}`,
+                      color: `${Index === 6 ? "white" : ""}`,
+                    }}
+                    className="filter-btn"
+                  >
+                    BASIC
+                  </a>
+                </li>
+                <li>
+                  <a
+                    onClick={e => OnHandleClick(e, "PRE-EX", 7)}
+                    style={{
+                      backgroundColor: `${Index === 7 ? "#252362" : "white"}`,
+                      color: `${Index === 7 ? "white" : ""}`,
+                    }}
+                    className="filter-btn"
+                  >
+                    PRE-EX
+                  </a>
+                </li>
+                <li>
+                  <a
+                    onClick={e => OnHandleClick(e, "EMAIL Quote", 8)}
+                    style={{
+                      backgroundColor: `${Index === 8 ? "#252362" : "white"}`,
+                      color: `${Index === 8 ? "white" : ""}`,
+                    }}
+                    className="filter-btn"
+                  >
+                    EMAIL Quote
+                  </a>
+                </li>
+              </ul>
 
-                {listData &&
+              {listData && listData
+                ? listData &&
                   listData?.map((ele, i) => (
                     <>
                       <div key={i} className="container my-5 tableDesign">
@@ -194,10 +276,14 @@ export default function Filters({
                                   </h3>
                                 </div>
                                 <div>
-                                  <h5 className="my-2">
-                                    {ele?.policy_ID_fk?.policyName}
-                                    {ele?.planType[0].name}
-                                  </h5>
+                                  <div className="my-2">
+                                    <span className="label label-default m-2">
+                                      {ele?.policy_ID_fk?.policyName}
+                                    </span>
+                                    <span className="label label-default">
+                                      {ele?.planType[0]?.name}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                               <hr />
@@ -237,7 +323,7 @@ export default function Filters({
                                 <Col lg="5" md="6" sm="12">
                                   <Row>
                                     <Col lg="6" md="12">
-                                      <h3> Plan Maximum:</h3>
+                                      <h5> Plan Maximum:</h5>
                                       <select
                                         className="form-control"
                                         aria-label="Default select example"
@@ -248,7 +334,7 @@ export default function Filters({
                                       </select>
                                     </Col>
                                     <Col lg="6" md="12">
-                                      <h3> Plan Deductible:</h3>
+                                      <h5> Plan Deductible:</h5>
                                       <select
                                         className="form-control"
                                         aria-label="Default select example"
@@ -260,13 +346,23 @@ export default function Filters({
                                     </Col>
                                     <Col lg="12" md="12" sm="12">
                                       <div className="subheading">
-                                        <h3>
+                                        <h4
+                                          style={{
+                                            fontSize: "14px",
+                                            color: "#fff",
+                                          }}
+                                        >
                                           Prex-Deductible:${ele?.planDeductible}
-                                        </h3>
-                                        <h3>
+                                        </h4>
+                                        <h4
+                                          style={{
+                                            fontSize: "14px",
+                                            color: "#fff",
+                                          }}
+                                        >
                                           Prex-Coverage Amt: $
                                           {ele?.preexMaxCoverage}
-                                        </h3>
+                                        </h4>
                                       </div>
                                     </Col>
                                     <Col
@@ -288,7 +384,10 @@ export default function Filters({
                                       <button
                                         className="custombtn"
                                         onClick={() =>
-                                          history.push("/BmiPlans")
+                                          history.push({
+                                            pathname: "/BmiPlans",
+                                            state: bothDates,
+                                          })
                                         }
                                       >
                                         Purchase
@@ -324,8 +423,7 @@ export default function Filters({
                                   <div className="form-group">
                                     <Label> Coverage Period:</Label>
                                     <p className="form-control-static">
-                                      {ele?.toDate?.split("-")[2] -
-                                        ele?.fromDate?.split("-")[2]}
+                                      {duration ? duration : 0}
                                     </p>
                                   </div>
                                 </h5>
@@ -345,12 +443,13 @@ export default function Filters({
                         </Row>
                       </div>
                     </>
-                  ))}
-              </div>
+                  ))
+                : "Page not Found"}
             </div>
           </div>
-        </section>
-      </>
+        </div>
+      </section>
+
       <div className="container my-5">
         <div className="row">
           <div className="col-lg-12">

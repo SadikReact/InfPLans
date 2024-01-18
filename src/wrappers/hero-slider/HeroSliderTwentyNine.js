@@ -1,33 +1,54 @@
-import React, { useEffect, useState } from "react";
-import "../../assets/scss/_infPlan.scss";
-import { Button, Form } from "reactstrap";
+import React, { useEffect, useState, useContext } from "react";
+import {
+  CountryDropdown,
+  RegionDropdown,
+  CountryRegionData,
+} from "react-country-region-selector";
+
+import { Country, State, City } from "country-state-city";
+import { Button, Form, Label } from "reactstrap";
+import Select from "react-select";
 import { Stepper, Step } from "react-form-stepper";
+import Multiselect from "multiselect-react-dropdown";
 import { Row, Col, Card, CardBody, CardHeader, CardTitle } from "reactstrap";
 import "flatpickr/dist/themes/material_green.css";
 import Flatpickr from "react-flatpickr";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import HeroSliderTwentyNineSingle from "../../components/hero-slider/HeroSliderTwentyNineSingle.js";
 import axiosConfig from "../../axiosConfig";
 import Filters from "../../components/pages/quotes/FilterDataList";
-
+import "../../assets/scss/_infPlan.scss";
+import UserContext from "../../Context/Context";
 const HeroSliderTwentyNine = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [maximum, setMaximum] = useState("");
+  const [regions, setRegions] = useState("");
+  const [region, setRegion] = useState("");
+  const [country, setCountry] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(null);
+
+  const [country1, setCountry1] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
   const [area, setArea] = useState("");
   const [email, setEmail] = useState("");
   const [isData, setIsData] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [duration, setDuration] = useState(null);
   const [formValues, setFormValues] = useState([{ dob: "" }]);
+  const user = useContext(UserContext);
+  useEffect(() => {
+    console.log(user.myState);
+    user.setmyState({ statDate: fromDate, endDate: toDate });
+  }, [fromDate, toDate]);
   const handleTimeChange = e => {
     console.log(e.target.value);
     let mainDuration;
     if (fromDate && e.target.value) {
       const startDate = new Date(fromDate);
+      setToDate(e.target.value);
       const endDate = new Date(e.target.value);
-
       // Check if both dates are valid
       if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
         // Calculate the difference in milliseconds
@@ -55,8 +76,23 @@ const HeroSliderTwentyNine = () => {
   const todayplus = new Date();
   todayplus.setDate(todayplus.getDate() + 5); // Addition 1 days from the current date
 
+  const selectCountry = val => {
+    setCountry(val);
+  };
+  const onSelect1 = (selectedList, selectedItem) => {
+    console.log(selectedList);
+    setCountry1(selectedList);
+  };
+  const onRemove1 = (selectedList, selectedItem) => {
+    setCountry1(selectedList);
+    console.log(selectedList);
+  };
+  const selectRegion = val => {
+    setRegion(val);
+  };
   const AddThreeDay = todayplus.toISOString().split("T")[0];
   let handleChange = (i, e) => {
+    console.log(i, e.target.value);
     let newFormValues = [...formValues];
     newFormValues[i][e.target.name] = e.target.value;
     setFormValues(newFormValues);
@@ -72,6 +108,7 @@ const HeroSliderTwentyNine = () => {
     setFormValues(newFormValues);
   };
   const handleNextStep = () => {
+    console.log("country", country);
     setActiveStep(prevStep => (prevStep < 4 ? prevStep + 1 : prevStep));
   };
 
@@ -88,6 +125,7 @@ const HeroSliderTwentyNine = () => {
   // };
   const handleSubmit = e => {
     e.preventDefault();
+    console.log("country", country, email);
     const payload = {
       fromDate,
       toDate,
@@ -117,8 +155,8 @@ const HeroSliderTwentyNine = () => {
             alt="Find the righ  t coverage for your trip"
             id="home-hero-section-background"
           >
-            <h2 className="text-center">Travel Information</h2>
-            <p className="text-center">
+            <h2 className="text-center head">Travel Information</h2>
+            <p className="text-center ">
               Please provide required information so we can process your quote.
             </p>
             <Stepper styleConfig={stepStyleConfig} activeStep={activeStep}>
@@ -128,77 +166,58 @@ const HeroSliderTwentyNine = () => {
               <Step />
             </Stepper>
             {activeStep === 0 ? (
-              <>
-                <div className="row">
-                  <div className="col-lg-4 col-xs-12 "></div>
-                  <div className="col-lg-4 col-xs-12 ">
-                    <div>
-                      <h4>What's your country of residence?</h4>
-                    </div>
-                    <div className="py-2 mt-1">
-                      <select
-                        class="form-control form-select"
-                        aria-label="Default select example"
-                        type="select"
-                        name="allPlan"
-                        value={maximum}
-                        onChange={e => setMaximum(e.target.value)}
-                      >
-                        <option value="Below $5,000,000">
-                          Below $5,000,000
-                        </option>
-                        <option value="Below $8,000,000">
-                          Below $8,000,000
-                        </option>
-                      </select>
-                    </div>
+              <div className="row">
+                <div className="col-lg-4 col-xs-12 "></div>
+                <div className="col-lg-4 col-xs-12 ">
+                  <div>
+                    <h4 className="head">What's your country of residence?</h4>
                   </div>
-                  <div className="col-lg-4 col-xs-12 "></div>
+                  <div className="countrySelect">
+                    <CountryDropdown
+                      value={country}
+                      onChange={val => selectCountry(val)}
+                    />
+                    {/* <RegionDropdown
+                      country={country}
+                      value={region}
+                      onChange={val => selectRegion(val)}
+                    /> */}
+                  </div>
                 </div>
-              </>
+                <div className="col-lg-4 col-xs-12 "></div>
+              </div>
             ) : (
               ""
             )}
             {activeStep === 1 ? (
-              <div
-                className="
-            container"
-              >
-                <h1>What is your Date of birth?</h1>
-                <p>
-                  Provide the following details of the traveler. **In adding a
-                  dependent, kindly click “Add another traveler”
-                </p>
+              <div key="1" className="container">
                 <div
                   className=" row py-4"
-                  style={{
-                    // backgroundColor: "#252362",
-                    justifyContent: "center",
-                  }}
+                  style={
+                    {
+                      // backgroundColor: "#252362",
+                      // justifyContent: "center",
+                    }
+                  }
                 >
-                  {/* <div className=" col-md-2 py-2 col-xs-12 ">
-                  <span>Traveler 1</span>
-                </div>
-                <div className=" col-md-7 py-2 col-xs-12 ">
-                  <input
-                    type="date"
-                    name="dateOfBirth"
-                    value={dateOfBirth}
-                    max={maxDate()}
-                    className="dropped"
-                    onChange={e => setDateOfBirth(e.target.value)}
-                  />
-                </div> */}
-
+                  <h1>What is your Date of birth?</h1>
+                  <p>
+                    Provide the following details of the traveler. **In adding a
+                    dependent, kindly click “Add another traveler”
+                  </p>
                   {/* <form onSubmit={handleSubmit}> */}
                   <div className="col-md-12 py-2 col-xs-12">
                     <input
                       type="email"
+                      required
                       placeholder="Email Address"
                       name="email"
                       value={email}
                       // className="EmailInput"
-                      onChange={e => setEmail(e.target.value)}
+                      onChange={e => {
+                        console.log(email);
+                        setEmail(e.target.value);
+                      }}
                     />
                   </div>
                   {formValues.map((element, index) => (
@@ -215,7 +234,7 @@ const HeroSliderTwentyNine = () => {
                           </span>
                         </div>
                       </div>
-                      <div className="col-md-7 py-1 col-xs-12 ">
+                      <div className="col-md-7 py-1 col-xs-12">
                         <input
                           type="date"
                           // name="dateOfBirth"
@@ -271,21 +290,24 @@ const HeroSliderTwentyNine = () => {
             )}
             {activeStep === 2 ? (
               <div className="container">
-                <div className="">
+                <div className="row">
                   <h1>Countries or regions travelling to?</h1>
-                  <div className="py-2 mt-1">
-                    <select
-                      class="form-control form-select"
-                      aria-label="Default select example"
-                      type="select"
-                      name="allPlan"
-                      value={maximum}
-                      onChange={e => setMaximum(e.target.value)}
-                    >
-                      <option value="Below $5,000,000">Below $5,000,000</option>
-                      <option value="Below $8,000,000">Below $8,000,000</option>
-                    </select>
+                  <div className="col-4"></div>
+                  <div className="col-4">
+                    <div className="py-2 mt-1">
+                      <Label>Country</Label>
+                      <Multiselect
+                        required
+                        isObject="false"
+                        options={Country?.getAllCountries()} // Options to display in the dropdown
+                        //   selectedValues={selectedValue} // Preselected value to persist in dropdown
+                        onSelect={onSelect1} // Function will trigger on select event
+                        onRemove={onRemove1} // Function will trigger on remove event
+                        displayValue="name" // Property name to display in the dropdown options
+                      />
+                    </div>
                   </div>
+                  <div className="col-4"></div>
                 </div>
               </div>
             ) : (
@@ -301,8 +323,9 @@ const HeroSliderTwentyNine = () => {
                       <label htmlFor="startDate">Start Date:</label>
                       <input
                         type="date"
+                        required
                         id="startDate"
-                        name="startDate"
+                        name="fromDate"
                         min={minDate}
                         onChange={e => setFromDate(e.target.value)}
                       ></input>
@@ -311,6 +334,7 @@ const HeroSliderTwentyNine = () => {
                       <label htmlFor="endDate">End Date:</label>
                       <input
                         type="date"
+                        required
                         id="endDate"
                         name="endDate"
                         onChange={e => {
@@ -334,7 +358,7 @@ const HeroSliderTwentyNine = () => {
             ) : (
               ""
             )}
-            <div className="BothBtn d-flex justify-content-around my-2">
+            <div className="BothBtn d-flex justify-content-around my-4">
               <Button onClick={handleBackStep}>Back</Button>
               <Button
                 onClick={activeStep === 3 ? handleSubmit : handleNextStep}
@@ -345,7 +369,7 @@ const HeroSliderTwentyNine = () => {
           </section>
         </div>
       ) : (
-        <Filters />
+        <Filters duration={duration} fromDate={fromDate} toDate={toDate} />
       )}
     </div>
   );

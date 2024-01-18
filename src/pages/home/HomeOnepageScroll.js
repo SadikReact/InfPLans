@@ -35,7 +35,7 @@ const HomeOnepageScroll = () => {
       <div className="fullpage-slider-wrapper">
         <Header>
           <HeaderOne
-            layout="container-fluid"
+            layout="container"
             headerPaddingClass="header-padding-1"
             headerBgClass="bg-white"
           />

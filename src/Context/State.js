@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import UserContext from "./Context";
 
-const MainState = (props) => {
+const MainState = props => {
   // console.log(props);
-  const [myState, setmyState] = useState({});
+  const [myState, setmyState] = useState({ statDate: null, endDate: null });
   const [ProductList, setProductList] = useState([]);
   // const [viewOneAstro, setviewOneAstro] = useState({});
   // const astroid = localStorage.getItem("astroId");

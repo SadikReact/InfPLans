@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import planRighttImg from "../../../../assets/imgs/plans/inf-logo.png";
 import classnames from "classnames";
+import { Routes, Route, useParams } from "react-router-dom";
 import LayoutOne from "../../../../layouts/LayoutOne";
 import step from "../../../../assets/img/step.png";
 import "../../../../assets/scss/bmiplan.scss";
@@ -23,17 +24,21 @@ export default function ApplyList() {
   const [trip_startdate, setTrip_startdate] = useState("");
   const [trip_enddate, setTrip_enddate] = useState("");
   const [departure, setDeparture] = useState("");
+  const params = useParams();
   // const [date, setdate] = useState("");
-  const toggle = (tab) => {
+  const toggle = tab => {
     // console.log(tab);
     if (currentActiveTab !== tab) setCurrentActiveTab(tab);
   };
-  const toggleList = (tab) => {
+  useEffect(() => {
+    console.log(params);
+  }, []);
+  const toggleList = tab => {
     console.log(tab);
     if (list !== tab) setList(tab);
   };
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
     // console.log(e);
     console.log(name, value);
@@ -187,7 +192,7 @@ export default function ApplyList() {
                                           required
                                           defaultValue=""
                                           value={departure}
-                                          onChange={(e) => {
+                                          onChange={e => {
                                             setDeparture(e.target.value);
                                           }}
                                         >
@@ -243,7 +248,7 @@ export default function ApplyList() {
                                           required
                                           defaultValue=""
                                           value={departure}
-                                          onChange={(e) => {
+                                          onChange={e => {
                                             setDeparture(e.target.value);
                                           }}
                                         >
@@ -260,12 +265,13 @@ export default function ApplyList() {
                                       </div>
                                     </div>
                                   </Col>
-
-                                  <Col lg="6" md="6" sm="6">
+                                  <Col lg="4" md="4" sm="4"></Col>
+                                  <Col lg="4" md="4" sm="4">
                                     <button className="btn get-btn">
                                       Next
                                     </button>
                                   </Col>
+                                  <Col lg="4" md="4" sm="4"></Col>
                                 </Row>
                               </TabPane>
 
