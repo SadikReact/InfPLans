@@ -48,6 +48,7 @@ const BmiPlans = lazy(() => import("./components/pages/apply/plans/BmiPlans"));
 const Extend = lazy(() => import("./components/pages/extend/Extend"));
 const GetQuote = lazy(() => import("./components/pages/quotes/GetQuote"));
 const EasySelect = lazy(() => import("./components/pages/quotes/EasySelect"));
+const Hoptravel = lazy(() => import("./components/pages/hoptravel"));
 
 // product pages
 const Product = lazy(() => import("./pages/shop-product/Product"));
@@ -548,6 +549,10 @@ const App = props => {
                   <Route
                     path={process.env.PUBLIC_URL + "/inf-easy-select"}
                     component={EasySelect}
+                  />
+                  <Route
+                    path={process.env.PUBLIC_URL + "/Hoptravel"}
+                    component={Hoptravel}
                   />
                   <Route
                     path={process.env.PUBLIC_URL + "/blog-standard/:id"}

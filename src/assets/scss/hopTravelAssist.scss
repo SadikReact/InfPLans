@@ -1,0 +1,30 @@
+/* HopTravelAssist.css */
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+  font-weight: 800;
+  line-height: 1.5;
+  color: inherit;
+}
+
+.hop-travel-assist-container {
+  background-color: blue;
+  padding: 20px;
+  color: white; /* Default text color for content inside the container */
+}
+.heading {
+  color: #fff;
+}
+img.hopIMG {
+  width: 350px;
+}
+.hophead {
+  text-transform: capitalize;
+}
+a.read-less {
+  color: #252362;
+  text-decoration: none;
+  font-weight: 600;
+  float: inline-start;
+}

@@ -98,6 +98,41 @@ iframe {
 .home-hero-section-bg:after {
   z-index: -101;
 }
+
+.hot-travel-bg:before {
+  opacity: 1;
+  background-image: url("../imgs//home-hero-bg.png");
+  // height: 800px;
+}
+.hot-travel-bg {
+  // background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  opacity: 0.99;
+}
+.hot-travel-bg:before,
+.hot-travel-bg:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transition: opacity 0.5s ease 250ms;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.hot-travel-bg:before {
+  z-index: -100;
+  opacity: 1;
+}
+.hot-travel-bg:after {
+  z-index: -101;
+}
+
 .EmailInput {
   border-radius: 34px;
 }
@@ -440,10 +475,11 @@ h1 {
 #headList p {
   margin: 0 20px;
 }
+
 p {
   font-size: 16px;
-  color: #000;
   line-height: 1.5;
+  margin-bottom: 20px;
 }
 
 #centerDiv .bmi-plans-tab {
@@ -535,6 +571,11 @@ a.read-more {
 }
 section#elite-section1 h2 {
   font-weight: 500;
+}
+h2 {
+  font-size: 40px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 .elite-container {
   box-shadow: 0 0 12px 0 #ddd;

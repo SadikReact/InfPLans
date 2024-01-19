@@ -20,7 +20,7 @@ export default function Filters({
   const user = useContext(UserContext);
   const history = useHistory();
   useEffect(() => {
-    console.log(duration, user.myState);
+    // console.log(duration, user.myState);
     axiosConfig
       .get(`/plan/view-plan`)
       .then(response => {
@@ -30,8 +30,11 @@ export default function Filters({
         console.log(error);
       });
   }, []);
+
+  const handlePlanDetails = () => {
+    history.push("/Hoptravel");
+  };
   const OnHandleClick = async (e, data, ind) => {
-    console.log(data);
     setIndex(ind);
     e.preventDefault();
     var ActiveBtn = document.getElementById("btnList");
@@ -45,7 +48,6 @@ export default function Filters({
     }
 
     if (data === "All") {
-      console.log(user?.ProductList);
       await axiosConfig
         .get(`/plan/view-plan`)
         .then(response => {
@@ -101,15 +103,12 @@ export default function Filters({
       axiosConfig
         .get(`/plan/view-plan`)
         .then(response => {
-          let valueToFind = "NETWORK";
           let newArr = [];
-          if (response.data.Plan) {
-            response.data.Plan.forEach(val => {
-              if (val.planType.some(ab => ab.name === valueToFind)) {
-                newArr.push(val);
-              }
-            });
-          }
+          response.data.Plan.forEach(ele => {
+            if (ele?.policy_ID_fk?.policyName === "NETWORK") {
+              newArr.push(ele);
+            }
+          });
           setListData(newArr);
         })
         .catch(error => {
@@ -122,9 +121,9 @@ export default function Filters({
           let valueToFind = "TRAVELASSIST";
           let newArr = [];
           if (response.data.Plan) {
-            response.data.Plan.forEach(val => {
-              if (val.planType.some(ab => ab.name === valueToFind)) {
-                newArr.push(val);
+            response.data.Plan.forEach(ele => {
+              if (ele?.policy_ID_fk?.policyName === "TRAVELASSIST") {
+                newArr.push(ele);
               }
             });
           }
@@ -401,11 +400,14 @@ export default function Filters({
                           <Col lg="5" md="6" sm="12" className="my-5 ">
                             <Row>
                               <Col lg="6" md="6" sm="12" className="">
-                                <a href="#">
-                                  <button className="custombtn">
-                                    Plan Details
-                                  </button>
-                                </a>
+                                {/* <a href="/Hoptravel"> */}
+                                <button
+                                  onClick={handlePlanDetails}
+                                  className="custombtn"
+                                >
+                                  Plan Details
+                                </button>
+                                {/* </a> */}
                               </Col>
                               <Col lg="6" md="6" sm="12" className=" ">
                                 <a href="#">

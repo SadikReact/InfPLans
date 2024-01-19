@@ -4,13 +4,22 @@ import {
   RegionDropdown,
   CountryRegionData,
 } from "react-country-region-selector";
-
 import { Country, State, City } from "country-state-city";
-import { Button, Form, Label } from "reactstrap";
 import Select from "react-select";
+import swal from "sweetalert";
 import { Stepper, Step } from "react-form-stepper";
 import Multiselect from "multiselect-react-dropdown";
-import { Row, Col, Card, CardBody, CardHeader, CardTitle } from "reactstrap";
+import {
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  Button,
+  Form,
+  Label,
+} from "reactstrap";
 import "flatpickr/dist/themes/material_green.css";
 import Flatpickr from "react-flatpickr";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -23,14 +32,9 @@ const HeroSliderTwentyNine = () => {
   const [toDate, setToDate] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [maximum, setMaximum] = useState("");
-  const [regions, setRegions] = useState("");
   const [region, setRegion] = useState("");
   const [country, setCountry] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState(null);
-
   const [country1, setCountry1] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
   const [area, setArea] = useState("");
   const [email, setEmail] = useState("");
   const [isData, setIsData] = useState(false);
@@ -39,11 +43,11 @@ const HeroSliderTwentyNine = () => {
   const [formValues, setFormValues] = useState([{ dob: "" }]);
   const user = useContext(UserContext);
   useEffect(() => {
-    console.log(user.myState);
+    // console.log(user.myState);
     user.setmyState({ statDate: fromDate, endDate: toDate });
   }, [fromDate, toDate]);
+
   const handleTimeChange = e => {
-    console.log(e.target.value);
     let mainDuration;
     if (fromDate && e.target.value) {
       const startDate = new Date(fromDate);
@@ -56,8 +60,6 @@ const HeroSliderTwentyNine = () => {
 
         // Convert the difference to days
         const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-
-        console.log("Difference in days:", daysDifference + 1);
         mainDuration = daysDifference + 1;
       } else {
         console.log("Invalid dates. Please select valid dates.");
@@ -70,29 +72,24 @@ const HeroSliderTwentyNine = () => {
   today.setDate(today.getDate() + 1); // Addition 1 days from the current date
 
   const minDate = today.toISOString().split("T")[0];
-  // addition one day close
 
-  // addition three day open
   const todayplus = new Date();
   todayplus.setDate(todayplus.getDate() + 5); // Addition 1 days from the current date
-
-  const selectCountry = val => {
+  const maxDate = todayplus.toISOString().split("T")[0];
+  const handleCountry = val => {
     setCountry(val);
   };
   const onSelect1 = (selectedList, selectedItem) => {
-    console.log(selectedList);
     setCountry1(selectedList);
   };
   const onRemove1 = (selectedList, selectedItem) => {
     setCountry1(selectedList);
-    console.log(selectedList);
   };
   const selectRegion = val => {
     setRegion(val);
   };
-  const AddThreeDay = todayplus.toISOString().split("T")[0];
+  // const AddThreeDay = todayplus.toISOString().split("T")[0];
   let handleChange = (i, e) => {
-    console.log(i, e.target.value);
     let newFormValues = [...formValues];
     newFormValues[i][e.target.name] = e.target.value;
     setFormValues(newFormValues);
@@ -108,7 +105,9 @@ const HeroSliderTwentyNine = () => {
     setFormValues(newFormValues);
   };
   const handleNextStep = () => {
-    console.log("country", country);
+    // if (country) {
+    //   setActiveStep(prevStep => (prevStep < 4 ? prevStep + 1 : prevStep));
+    // }
     setActiveStep(prevStep => (prevStep < 4 ? prevStep + 1 : prevStep));
   };
 
@@ -119,13 +118,10 @@ const HeroSliderTwentyNine = () => {
     activeBgColor: "#4c5684",
     completedBgColor: "#00ee99",
   };
-  // const maxDate = () => {
-  //   const today = new Date().toISOString().split("T")[0];
-  //   return today;
-  // };
+
   const handleSubmit = e => {
     e.preventDefault();
-    console.log("country", country, email);
+
     const payload = {
       fromDate,
       toDate,
@@ -135,16 +131,11 @@ const HeroSliderTwentyNine = () => {
       email,
     };
     localStorage.setItem("user_searchquery", JSON.stringify(payload));
-    setIsData(!isData);
-    // axiosConfig
-    //   .post(`/user/quote`, payload)
-    //   .then(response => {
-    //     setIsData(!isData);
-    //     console.log(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    if (fromDate && toDate) {
+      setIsData(!isData);
+    } else {
+      swal("Please Selcet StartDate And EndDate");
+    }
   };
   return (
     <div className="slider-area">
@@ -175,7 +166,7 @@ const HeroSliderTwentyNine = () => {
                   <div className="countrySelect">
                     <CountryDropdown
                       value={country}
-                      onChange={val => selectCountry(val)}
+                      onChange={val => handleCountry(val)}
                     />
                     {/* <RegionDropdown
                       country={country}
@@ -192,7 +183,7 @@ const HeroSliderTwentyNine = () => {
             {activeStep === 1 ? (
               <div key="1" className="container">
                 <div
-                  className=" row py-4"
+                  className=" row py-2"
                   style={
                     {
                       // backgroundColor: "#252362",
@@ -201,88 +192,91 @@ const HeroSliderTwentyNine = () => {
                   }
                 >
                   <h1>What is your Date of birth?</h1>
-                  <p>
+                  <p className="text-center">
                     Provide the following details of the traveler. **In adding a
                     dependent, kindly click “Add another traveler”
                   </p>
-                  {/* <form onSubmit={handleSubmit}> */}
-                  <div className="col-md-12 py-2 col-xs-12">
-                    <input
-                      type="email"
-                      required
-                      placeholder="Email Address"
-                      name="email"
-                      value={email}
-                      // className="EmailInput"
-                      onChange={e => {
-                        console.log(email);
-                        setEmail(e.target.value);
-                      }}
-                    />
-                  </div>
-                  {formValues.map((element, index) => (
-                    <>
-                      <div className=" col-md-5 py-1 col-xs-12 ">
-                        <div>
-                          <span
-                            style={{
-                              fontSize: "19px",
-                              fontWeight: "600",
-                            }}
-                          >
-                            Traveler {index + 1}
-                          </span>
+                  <div className="col-3"></div>
+                  <div className="col-6">
+                    {/* <form onSubmit={handleSubmit}> */}
+                    <div className="col-md-12 py-2 col-xs-12">
+                      <input
+                        required
+                        type="email"
+                        placeholder="Email Address"
+                        name="email"
+                        value={email}
+                        // className="EmailInput"
+                        onChange={e => {
+                          setEmail(e.target.value);
+                        }}
+                      />
+                    </div>
+                    {formValues.map((element, index) => (
+                      <>
+                        <div className=" col-md-5 py-1 col-xs-12 ">
+                          <div>
+                            <span
+                              style={{
+                                fontSize: "19px",
+                                fontWeight: "600",
+                              }}
+                            >
+                              Traveler {index + 1}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-md-7 py-1 col-xs-12">
-                        <input
-                          type="date"
-                          // name="dateOfBirth"
-                          // value={dateOfBirth}
-                          // max={maxDate()}
-                          // className="dropped"
-                          // onChange={e => setDateOfBirth(e.target.value)}
-                          name="dob"
-                          value={element.dob || ""}
-                          onChange={e => handleChange(index, e)}
-                        />
-                      </div>
+                        <div className="col-md-7 py-1 col-xs-12">
+                          <input
+                            type="date"
+                            required
+                            // name="dateOfBirth"
+                            // value={dateOfBirth}
+                            // max={maxDate()}
+                            // className="dropped"
+                            // onChange={e => setDateOfBirth(e.target.value)}
+                            name="dob"
+                            value={element.dob || ""}
+                            onChange={e => handleChange(index, e)}
+                          />
+                        </div>
 
-                      <div>
-                        {index ? (
-                          <span
-                            // type="button"
-                            // className="button remove btn btn-secondary"
-                            style={{
-                              color: "red",
-                              cursor: "pointer",
-                              fontSize: "19px",
-                              fontWeight: "600",
-                            }}
-                            onClick={() => removeFormFields(index)}
-                          >
-                            Remove
-                          </span>
-                        ) : null}
-                      </div>
-                    </>
-                  ))}
-
-                  <div className=" my-2">
-                    <span
-                      // className="add btn btn-secondary"
-                      // type="button"
-                      style={{
-                        color: "blue",
-                        cursor: "pointer",
-                        fontSize: "19px",
-                        fontWeight: "600",
-                      }}
-                      onClick={() => addFormFields()}
-                    >
-                      Add another traveler
-                    </span>
+                        <div>
+                          {index ? (
+                            <span
+                              // type="button"
+                              // className="button remove btn btn-secondary"
+                              style={{
+                                color: "red",
+                                cursor: "pointer",
+                                fontSize: "19px",
+                                fontWeight: "600",
+                              }}
+                              onClick={() => removeFormFields(index)}
+                            >
+                              Remove
+                            </span>
+                          ) : null}
+                        </div>
+                      </>
+                    ))}
+                    <div className=" my-2">
+                      <span
+                        // className="add btn btn-secondary"
+                        // type="button"
+                        style={{
+                          color: "blue",
+                          cursor: "pointer",
+                          fontSize: "19px",
+                          fontWeight: "600",
+                        }}
+                        onClick={() => addFormFields()}
+                      >
+                        Add another traveler
+                      </span>
+                    </div>
                   </div>
+                  <div className="col-3"></div>
                 </div>
               </div>
             ) : (
@@ -322,8 +316,8 @@ const HeroSliderTwentyNine = () => {
                     <div>
                       <label htmlFor="startDate">Start Date:</label>
                       <input
-                        type="date"
                         required
+                        type="date"
                         id="startDate"
                         name="fromDate"
                         min={minDate}
@@ -337,6 +331,7 @@ const HeroSliderTwentyNine = () => {
                         required
                         id="endDate"
                         name="endDate"
+                        min={maxDate}
                         onChange={e => {
                           handleTimeChange(e);
                         }}
@@ -359,9 +354,23 @@ const HeroSliderTwentyNine = () => {
               ""
             )}
             <div className="BothBtn d-flex justify-content-around my-4">
-              <Button onClick={handleBackStep}>Back</Button>
+              {activeStep === 0 ? null : (
+                <Button className="custombtn2" onClick={handleBackStep}>
+                  Back
+                </Button>
+              )}
+
               <Button
-                onClick={activeStep === 3 ? handleSubmit : handleNextStep}
+                className="custombtn2"
+                // color="primary"
+                disabled={country ? false : true}
+                onClick={
+                  activeStep === 3
+                    ? handleSubmit
+                    : country
+                    ? handleNextStep
+                    : null
+                }
               >
                 {activeStep === 3 ? "Get Quote" : "Next"}
               </Button>
