@@ -311,8 +311,8 @@ const HeroSliderTwentyNine = () => {
               <div className="container">
                 <Row>
                   <h2>When are you Travelling?</h2>
-                  <Col className="mb-3" md="6" sm="12">
                     <h5 className="text-bold-500">StartDate and EndDate</h5>
+                  <Col className="mb-3" md="6" sm="12">
                     <div>
                       <label htmlFor="startDate">Start Date:</label>
                       <input
@@ -324,7 +324,9 @@ const HeroSliderTwentyNine = () => {
                         onChange={e => setFromDate(e.target.value)}
                       ></input>
                     </div>
-                    <div>
+                   
+                  </Col>
+                  <Col> <div>
                       <label htmlFor="endDate">End Date:</label>
                       <input
                         type="date"
@@ -336,12 +338,8 @@ const HeroSliderTwentyNine = () => {
                           handleTimeChange(e);
                         }}
                       ></input>
-                    </div>
-                  </Col>
-                  <Col className="mb-3" md="6" sm="12">
-                    <b>Duration: {duration ? duration : 0} days</b> Start date
-                    and end date included
-                  </Col>
+                    </div></Col>
+                 
                 </Row>
                 <Row>
                   <Col>
