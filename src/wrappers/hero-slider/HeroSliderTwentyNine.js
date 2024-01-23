@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
-import {
-  CountryDropdown,
-  RegionDropdown,
-  CountryRegionData,
-} from "react-country-region-selector";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import { Country, State, City } from "country-state-city";
+
 import Select from "react-select";
+import countryList from "react-select-country-list";
+
 import swal from "sweetalert";
 import { Stepper, Step } from "react-form-stepper";
 import Multiselect from "multiselect-react-dropdown";
@@ -33,7 +31,7 @@ const HeroSliderTwentyNine = () => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [maximum, setMaximum] = useState("");
   const [region, setRegion] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState({ label: "India" });
   const [country1, setCountry1] = useState("");
   const [area, setArea] = useState("");
   const [email, setEmail] = useState("");
@@ -41,9 +39,9 @@ const HeroSliderTwentyNine = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [duration, setDuration] = useState(null);
   const [formValues, setFormValues] = useState([{ dob: "" }]);
+  const options = useMemo(() => countryList().getData(), []);
   const user = useContext(UserContext);
   useEffect(() => {
-    // console.log(user.myState);
     user.setmyState({ statDate: fromDate, endDate: toDate });
   }, [fromDate, toDate]);
 
@@ -74,11 +72,11 @@ const HeroSliderTwentyNine = () => {
   const minDate = today.toISOString().split("T")[0];
 
   const todayplus = new Date();
-  todayplus.setDate(todayplus.getDate() + 5); // Addition 1 days from the current date
+  todayplus.setDate(todayplus.getDate() + 30); // Addition 1 days from the current date
   const maxDate = todayplus.toISOString().split("T")[0];
-  const handleCountry = val => {
-    setCountry(val);
-  };
+  // const handleCountry = val => {
+  //   setCountry(val);
+  // };
   const onSelect1 = (selectedList, selectedItem) => {
     setCountry1(selectedList);
   };
@@ -137,6 +135,10 @@ const HeroSliderTwentyNine = () => {
       swal("Please Selcet StartDate And EndDate");
     }
   };
+
+  const changeHandler = value => {
+    setCountry(value);
+  };
   return (
     <div className="slider-area">
       {isData === false ? (
@@ -164,14 +166,14 @@ const HeroSliderTwentyNine = () => {
                     <h4 className="head">What's your country of residence?</h4>
                   </div>
                   <div className="countrySelect">
-                    <CountryDropdown
+                    <Select
+                      options={options}
+                      value={country}
+                      onChange={changeHandler}
+                    />
+                    {/* <CountryDropdown
                       value={country}
                       onChange={val => handleCountry(val)}
-                    />
-                    {/* <RegionDropdown
-                      country={country}
-                      value={region}
-                      onChange={val => selectRegion(val)}
                     /> */}
                   </div>
                 </div>
@@ -311,7 +313,7 @@ const HeroSliderTwentyNine = () => {
               <div className="container">
                 <Row>
                   <h2>When are you Travelling?</h2>
-                    <h5 className="text-bold-500">StartDate and EndDate</h5>
+                  <h5 className="text-bold-500">StartDate and EndDate</h5>
                   <Col className="mb-3" md="6" sm="12">
                     <div>
                       <label htmlFor="startDate">Start Date:</label>
@@ -324,9 +326,9 @@ const HeroSliderTwentyNine = () => {
                         onChange={e => setFromDate(e.target.value)}
                       ></input>
                     </div>
-                   
                   </Col>
-                  <Col> <div>
+                  <Col>
+                    <div>
                       <label htmlFor="endDate">End Date:</label>
                       <input
                         type="date"
@@ -338,8 +340,8 @@ const HeroSliderTwentyNine = () => {
                           handleTimeChange(e);
                         }}
                       ></input>
-                    </div></Col>
-                 
+                    </div>
+                  </Col>
                 </Row>
                 <Row>
                   <Col>
@@ -360,7 +362,7 @@ const HeroSliderTwentyNine = () => {
 
               <Button
                 className="custombtn2"
-                // color="primary"
+                color="primary"
                 disabled={country ? false : true}
                 onClick={
                   activeStep === 3

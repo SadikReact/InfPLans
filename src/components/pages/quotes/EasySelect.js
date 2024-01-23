@@ -27,9 +27,7 @@ export default function EasySelect() {
   const [Error, setError] = useState(false);
   const [PlanList, setPlanList] = useState([]);
   const [country1, setCountry1] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState("India");
   const [activeStep, setActiveStep] = useState(0);
   const [duration, setDuration] = useState(null);
   const [formValues, setFormValues] = useState([{ dob: "" }]);
@@ -370,10 +368,10 @@ export default function EasySelect() {
                       <div className="container">
                         <Row>
                           <h2>When are you Travelling?</h2>
+                          <h5 className="text-bold-500">
+                            StartDate and EndDate
+                          </h5>
                           <Col className="mb-3" md="6" sm="12">
-                            <h5 className="text-bold-500">
-                              StartDate and EndDate
-                            </h5>
                             <div>
                               <label htmlFor="startDate">Start Date:</label>
                               <input
@@ -385,6 +383,9 @@ export default function EasySelect() {
                                 onChange={e => setFromDate(e.target.value)}
                               ></input>
                             </div>
+                          </Col>
+                          <Col>
+                            {" "}
                             <div>
                               <label htmlFor="endDate">End Date:</label>
                               <input
@@ -398,10 +399,6 @@ export default function EasySelect() {
                                 }}
                               ></input>
                             </div>
-                          </Col>
-                          <Col className="mb-3" md="6" sm="12">
-                            <b>Duration: {duration ? duration : 0} days</b>{" "}
-                            Start date and end date included
                           </Col>
                         </Row>
                         <Row>

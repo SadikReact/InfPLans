@@ -19,12 +19,17 @@ export default function Filters({
   const [Index, setIndex] = useState(2);
   const user = useContext(UserContext);
   const history = useHistory();
+
   useEffect(() => {
     // console.log(duration, user.myState);
     axiosConfig
       .get(`/plan/view-plan`)
       .then(response => {
-        setListData(response.data.Plan);
+        const updatedPlanList = response.data.Plan?.filter(
+          st => st.status === "true"
+        );
+        console.log(updatedPlanList);
+        setListData(updatedPlanList);
       })
       .catch(error => {
         console.log(error);
@@ -65,7 +70,7 @@ export default function Filters({
           let newArr = [];
           if (response.data.Plan) {
             response.data.Plan.forEach(val => {
-              if (val.planType.some(ab => ab.name === valueToFind)) {
+              if (val.planType.some(ab => ab.plan_type === valueToFind)) {
                 newArr.push(val);
               }
             });
@@ -86,7 +91,7 @@ export default function Filters({
           let newArr = [];
           if (response.data.Plan) {
             response.data.Plan.forEach(val => {
-              if (val.planType.some(ab => ab.name === valueToFind)) {
+              if (val.planType.some(ab => ab.plan_type === valueToFind)) {
                 newArr.push(val);
               }
             });
@@ -104,6 +109,7 @@ export default function Filters({
         .get(`/plan/view-plan`)
         .then(response => {
           let newArr = [];
+
           response.data.Plan.forEach(ele => {
             if (ele?.policy_ID_fk?.policyName === "NETWORK") {
               newArr.push(ele);
@@ -280,7 +286,9 @@ export default function Filters({
                                       {ele?.policy_ID_fk?.policyName}
                                     </span>
                                     <span className="label label-default">
-                                      {ele?.planType[0]?.name}
+                                      {ele?.planType?.map(
+                                        ele => ele?.plan_type
+                                      )}
                                     </span>
                                   </div>
                                 </div>
@@ -296,27 +304,6 @@ export default function Filters({
                                         )}
                                       </li>
                                     }
-                                    {/* <li>
-                                      Pre-Existing Conditions Coverage $300)
-                                    </li>
-                                    <li>Covers COVID-19 Testing & Treatment</li>
-                                    <li>BMI Makes all Appointments</li>
-                                    <li>
-                                      Pays 100% of all Eligible Medical Expense
-                                      directly to provides
-                                    </li>
-                                    <li>Policy Maximums up to $10,000</li>
-                                    <li> Emergency Dental Benefits</li>
-                                    <li> Trip Interruption Benefit</li>
-                                    <li>
-                                      No Claims Hassle as BMI Handles all claims
-                                      directly
-                                    </li>
-                                    <li>
-                                      Quotes are based on 5 days min purchase
-                                      and buying more days get you reduced
-                                      prices.
-                                    </li> */}
                                   </ul>
                                 </Col>
                                 <Col lg="5" md="6" sm="12">
