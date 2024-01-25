@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import planRighttImg from "../../../../assets/imgs/plans/inf-logo.png";
 import classnames from "classnames";
 import { Routes, Route, useParams } from "react-router-dom";
+import { Country, State, City } from "country-state-city";
+import Select from "react-select";
+import countryList from "react-select-country-list";
 import LayoutOne from "../../../../layouts/LayoutOne";
 import step from "../../../../assets/img/step.png";
 import "../../../../assets/scss/bmiplan.scss";
@@ -20,19 +23,44 @@ import {
 export default function ApplyList() {
   const [currentActiveTab, setCurrentActiveTab] = useState("1");
   const [list, setList] = useState("1");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [contact, setContact] = useState("");
+  const [EmrContact, setEmrContact] = useState("");
+  const [EmrPhone, setEmrPhone] = useState("");
+  const [emrEmail, setEmrEmail] = useState("");
+  const [passport, setPassport] = useState("");
+  const [gender, setGender] = useState("");
   const [date, setdate] = useState("");
   const [trip_startdate, setTrip_startdate] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [postalCode, setPostalCode] = useState("");
   const [trip_enddate, setTrip_enddate] = useState("");
   const [departure, setDeparture] = useState("");
+  const [destination, setDestination] = useState("");
+  const [country, setCountry] = useState({ label: "India" });
   const params = useParams();
   // const [date, setdate] = useState("");
   const toggle = tab => {
-    // console.log(tab);
     if (currentActiveTab !== tab) setCurrentActiveTab(tab);
   };
+  const handleprevious = () => {
+    alert("hello");
+  };
+
+  const options = useMemo(() => countryList().getData(), []);
+  const options1 = useMemo(() => countryList().getData(), []);
   useEffect(() => {
     console.log(params);
   }, []);
+  const changeHandler = value => {
+    setCountry(value);
+  };
+  const handleDestination = value => {
+    setDestination(value);
+  };
   const toggleList = tab => {
     console.log(tab);
     if (list !== tab) setList(tab);
@@ -134,9 +162,8 @@ export default function ApplyList() {
                                     className="d-flex selectplan"
                                   >
                                     <span style={{ padding: "2.5rem" }}>
-                                      {" "}
                                       DEPENTAND DETAILS
-                                    </span>{" "}
+                                    </span>
                                     <img src={step} alt="image" />
                                   </div>
                                 </NavLink>
@@ -153,15 +180,13 @@ export default function ApplyList() {
                                     toggle("4");
                                   }}
                                 >
-                                  {" "}
                                   <div
                                     style={{ justifyContent: "space-between" }}
                                     className="d-flex selectplan"
                                   >
                                     <span style={{ padding: "2.5rem" }}>
-                                      {" "}
                                       PAYMENT DETAILS
-                                    </span>{" "}
+                                    </span>
                                     <img src={step} alt="image" />
                                   </div>
                                 </NavLink>
@@ -177,39 +202,25 @@ export default function ApplyList() {
                                       <div>
                                         <label>Trip Start Time </label>
                                         <input
-                                          className="form-control"
+                                          className="form-control mt-1"
                                           type="date"
                                           name="trip_startdate"
                                           value={trip_startdate}
-                                          onChange={handleChange}
+                                          onChange={e =>
+                                            setTrip_startdate(e.target.value)
+                                          }
                                         />
                                       </div>
 
                                       <div className="mt-2 select dobfield">
-                                        <CustomInput
-                                          type="select"
-                                          name="departure"
-                                          required
-                                          defaultValue=""
-                                          value={departure}
-                                          onChange={e => {
-                                            setDeparture(e.target.value);
-                                          }}
-                                        >
-                                          <option value="" disabled>
-                                            Departure
-                                          </option>
-                                          <option value="Pre-ex Coverage Included">
-                                            Pre-ex Coverage Included
-                                          </option>
-                                          <option value="Pre-ex Coverage Not Included">
-                                            Pre-ex Coverage Not Included
-                                          </option>
-                                        </CustomInput>
+                                        <Select
+                                          options={options}
+                                          value={country}
+                                          onChange={changeHandler}
+                                        />
                                       </div>
                                       <div>
                                         <h3>Additional Traveller Coverage</h3>
-
                                         <Input
                                           type="radio"
                                           id="html"
@@ -224,6 +235,7 @@ export default function ApplyList() {
                                           name="additional_avg_cov"
                                           value="additional_avg_cov"
                                           className="m-2"
+                                          checked
                                         />
                                         <label for="No">No</label>
                                       </div>
@@ -236,38 +248,30 @@ export default function ApplyList() {
                                         <input
                                           className="form-control"
                                           type="date"
-                                          name="Trip End Time"
-                                          onChange={handleChange}
+                                          name="TripEndTime"
+                                          onChange={e =>
+                                            setTrip_enddate(e.target.value)
+                                          }
                                         />
                                       </div>
 
                                       <div className="mt-2 select dobfield">
-                                        <CustomInput
-                                          type="select"
-                                          name="departure"
-                                          required
-                                          defaultValue=""
-                                          value={departure}
-                                          onChange={e => {
-                                            setDeparture(e.target.value);
-                                          }}
-                                        >
-                                          <option value="" disabled>
-                                            Destination
-                                          </option>
-                                          <option value="Pre-ex Coverage Included">
-                                            Pre-ex Coverage Included
-                                          </option>
-                                          <option value="Pre-ex Coverage Not Included">
-                                            Pre-ex Coverage Not Included
-                                          </option>
-                                        </CustomInput>
+                                        <Select
+                                          options={options1}
+                                          value={destination}
+                                          onChange={handleDestination}
+                                        />
                                       </div>
                                     </div>
                                   </Col>
                                   <Col lg="4" md="4" sm="4"></Col>
                                   <Col lg="4" md="4" sm="4">
-                                    <button className="btn get-btn">
+                                    <button
+                                      className="btn get-btn"
+                                      onClick={() => {
+                                        toggle("2");
+                                      }}
+                                    >
                                       Next
                                     </button>
                                   </Col>
@@ -276,9 +280,9 @@ export default function ApplyList() {
                               </TabPane>
 
                               <TabPane tabId="2">
-                                <h2 className="text-center">
+                                <h3 className="text-center my-3">
                                   Visitor Information
-                                </h2>
+                                </h3>
                                 <Row className="px-3">
                                   <Col lg="6" md="6" sm="12">
                                     <div className="p-1">
@@ -286,10 +290,12 @@ export default function ApplyList() {
                                         <input
                                           className="form-control"
                                           type="text"
-                                          placeholder="First Name "
-                                          name="trip_startdate"
-                                          value={trip_startdate}
-                                          onChange={handleChange}
+                                          placeholder="FirstName"
+                                          name="firstName"
+                                          value={firstName}
+                                          onChange={e =>
+                                            setFirstName(e.target.value)
+                                          }
                                         />
                                       </div>
                                       <div className="dobfield d-flex">
@@ -446,11 +452,13 @@ export default function ApplyList() {
                                       <div>
                                         <input
                                           className="form-control"
-                                          type="text"
-                                          placeholder="Passport Number "
-                                          name="trip_startdate"
-                                          value={trip_startdate}
-                                          onChange={handleChange}
+                                          type="number"
+                                          placeholder="Passport Number"
+                                          name="passport"
+                                          value={passport}
+                                          onChange={e =>
+                                            setPassport(e.target.value)
+                                          }
                                         />
                                       </div>
                                     </div>
@@ -462,9 +470,11 @@ export default function ApplyList() {
                                           className="form-control"
                                           placeholder="Last Name"
                                           type="text"
-                                          name="trip_startdate"
-                                          value={trip_startdate}
-                                          onChange={handleChange}
+                                          name="lastName"
+                                          value={lastName}
+                                          onChange={e =>
+                                            setLastName(e.target.value)
+                                          }
                                         />
                                       </div>
                                       <div className="select dobfield">
@@ -476,20 +486,18 @@ export default function ApplyList() {
                                       <div>
                                         <input
                                           className="form-control"
-                                          type="text"
-                                          placeholder="Contact No. "
-                                          name="trip_startdate"
-                                          value={trip_startdate}
-                                          onChange={handleChange}
+                                          type="tel"
+                                          placeholder="Contact No."
+                                          name="contact"
+                                          value={contact}
+                                          onChange={e =>
+                                            setContact(e.target.value)
+                                          }
                                         />
                                       </div>
                                     </div>
                                   </Col>
-                                  <Col lg="6" md="6" sm="6">
-                                    {/* <button className="btn get-btn">
-                                      Previous
-                                    </button> */}
-                                  </Col>
+                                  <Col lg="6" md="6" sm="6"></Col>
                                   <Col lg="12" md="12" sm="6">
                                     <div className="my-2">
                                       <input
@@ -503,19 +511,21 @@ export default function ApplyList() {
                                     </div>
                                   </Col>
                                   <Col lg="12" md="12" sm="6">
-                                    <h2 className="text-center">
+                                    <h3 className="text-center">
                                       Emergency Contact
-                                    </h2>
+                                    </h3>
                                   </Col>
                                   <Col lg="12" md="12" sm="6">
                                     <div className="my-2">
                                       <input
                                         className="input"
-                                        type="text"
-                                        placeholder="Name"
-                                        name="email"
-                                        value={trip_startdate}
-                                        onChange={handleChange}
+                                        type="tel"
+                                        placeholder="Emergency Contact"
+                                        name="EmrContact"
+                                        value={EmrContact}
+                                        onChange={e =>
+                                          setEmrContact(e.target.value)
+                                        }
                                       />
                                     </div>
                                   </Col>
@@ -523,11 +533,13 @@ export default function ApplyList() {
                                     <div className="my-2">
                                       <input
                                         className="input"
-                                        type="text"
+                                        type="tel"
                                         placeholder="Emergency Contact Phone"
-                                        name="email"
-                                        value={trip_startdate}
-                                        onChange={handleChange}
+                                        name="EmrPhone"
+                                        value={EmrPhone}
+                                        onChange={e =>
+                                          setEmrPhone(e.target.value)
+                                        }
                                       />
                                     </div>
                                   </Col>
@@ -538,8 +550,10 @@ export default function ApplyList() {
                                         type="text"
                                         placeholder="Emergency Contact Email"
                                         name="email"
-                                        value={trip_startdate}
-                                        onChange={handleChange}
+                                        value={emrEmail}
+                                        onChange={e =>
+                                          setEmrEmail(e.target.value)
+                                        }
                                       />
                                     </div>
                                   </Col>
@@ -549,7 +563,12 @@ export default function ApplyList() {
                                     </button>
                                   </Col>
                                   <Col lg="6" md="6" sm="6">
-                                    <button className="btn get-btn">
+                                    <button
+                                      className="btn get-btn"
+                                      onClick={() => {
+                                        toggle("3");
+                                      }}
+                                    >
                                       Next
                                     </button>
                                   </Col>
@@ -590,6 +609,157 @@ export default function ApplyList() {
                                         new sickness coverage.
                                       </p>
                                     </div>
+                                  </Col>
+                                  <Col lg="6" md="6" sm="6">
+                                    <button className="btn get-btn">
+                                      Previous
+                                    </button>
+                                  </Col>
+                                  <Col lg="6" md="6" sm="6">
+                                    <button
+                                      className="btn get-btn"
+                                      onClick={() => {
+                                        toggle("4");
+                                      }}
+                                    >
+                                      Next
+                                    </button>
+                                  </Col>
+                                </Row>
+                              </TabPane>
+                              <TabPane tabId="4">
+                                <Row>
+                                  <Col lg="12" sm="12">
+                                    <Row>
+                                      <Col>
+                                        <div className="bg-color">
+                                          <h4 className="text-center pt-1">
+                                            BMI CLASSICO
+                                          </h4>
+                                          <p className="text-center">
+                                            <b>$21.9</b>
+                                          </p>
+                                        </div>
+                                      </Col>
+                                      <Col>
+                                        <div className="bg-color ">
+                                          <h4 className="text-center pt-1">
+                                            BMI ULTRA
+                                          </h4>
+                                          <p className="text-center">
+                                            <b>$41.04</b>
+                                          </p>
+                                        </div>
+                                      </Col>
+                                      <Col>
+                                        <div className="bg-color">
+                                          <h4 className="text-center pt-1">
+                                            BMI ULTRA PLUS
+                                          </h4>
+                                          <p className="text-center">
+                                            <b>$54.06</b>
+                                          </p>
+                                        </div>
+                                      </Col>
+                                      <Col>
+                                        <div className="bg-color">
+                                          <h4 className="text-center pt-1">
+                                            BMI VIP
+                                          </h4>
+                                          <p className="text-center">
+                                            <b>$89.52</b>
+                                          </p>
+                                        </div>
+                                      </Col>
+                                      <Col>
+                                        <div className="bg-color text-center">
+                                          <h4 className="text-center pt-1">
+                                            BMI VIP PLUS
+                                          </h4>
+                                          <p className="text-center">
+                                            <b>$108.66</b>
+                                          </p>
+                                        </div>
+                                      </Col>
+                                    </Row>
+                                  </Col>
+                                </Row>
+                                <Row className="p-2">
+                                  <Col lg="6" md="6" sm="12">
+                                    <div className="p-1">
+                                      <div>
+                                        <input
+                                          className="form-control mt-1"
+                                          type="text"
+                                          name="address"
+                                          placeholder="Address"
+                                          value={address}
+                                          onChange={e =>
+                                            setAddress(e.target.value)
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  </Col>
+                                  <Col lg="6" md="6" sm="12">
+                                    <div className="p-1">
+                                      <div>
+                                        <input
+                                          className="form-control"
+                                          type="text"
+                                          name="city"
+                                          placeholder="City"
+                                          onChange={e =>
+                                            setCity(e.target.value)
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  </Col>
+                                  <Col lg="6" md="6" sm="12">
+                                    <div className="p-1">
+                                      <div>
+                                        <input
+                                          className="form-control"
+                                          type="text"
+                                          name="state"
+                                          placeholder="State"
+                                          onChange={e =>
+                                            setState(e.target.value)
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  </Col>
+                                  <Col lg="6" md="6" sm="12">
+                                    <div className="p-1">
+                                      <div>
+                                        <input
+                                          className="form-control"
+                                          type="number"
+                                          placeholder="Postal Code"
+                                          name="postalcode"
+                                          onChange={e =>
+                                            setPostalCode(e.target.value)
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  </Col>
+                                  <Col lg="6" md="6" sm="6">
+                                    <button className="btn get-btn">
+                                      Previous
+                                    </button>
+                                  </Col>
+                                  <Col lg="6" md="6" sm="6">
+                                    <button
+                                      className="btn get-btn"
+                                      // onClick={() => {
+                                      //   toggle("");
+                                      // }}
+                                    >
+                                      Next
+                                    </button>
                                   </Col>
                                 </Row>
                               </TabPane>

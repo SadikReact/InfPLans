@@ -28,7 +28,6 @@ export default function ApplyList() {
   const [trip_startdate, setTrip_startdate] = useState("");
   const [trip_enddate, setTrip_enddate] = useState("");
   const [departure, setDeparture] = useState("");
-  // const [date, setdate] = useState("");
   const toggle = tab => {
     // console.log(tab);
     if (currentActiveTab !== tab) setCurrentActiveTab(tab);
@@ -37,7 +36,13 @@ export default function ApplyList() {
     console.log(tab);
     if (list !== tab) setList(tab);
   };
+  const handleNextStep = () => {
+    // setActiveStep(prevStep => (prevStep < 4 ? prevStep + 1 : prevStep));
+  };
 
+  const handleBackStep = () => {
+    // setActiveStep(prevStep => (prevStep > 0 ? prevStep - 1 : prevStep));
+  };
   const handleChange = e => {
     const { name, value } = e.target;
     // console.log(e);
@@ -52,7 +57,6 @@ export default function ApplyList() {
               <div className="plan-container ">
                 <div className="row">
                   <div className="box"></div>
-
                   <div className="col-lg-12">
                     <h1 className="">Apply for INF Visitor Insurance</h1>
                     <div className="plans-logo">
@@ -134,9 +138,8 @@ export default function ApplyList() {
                                     className="d-flex selectplan"
                                   >
                                     <span style={{ padding: "2.5rem" }}>
-                                      {" "}
                                       DEPENTAND DETAILS
-                                    </span>{" "}
+                                    </span>
                                     <img src={step} alt="image" />
                                   </div>
                                 </NavLink>
@@ -153,15 +156,13 @@ export default function ApplyList() {
                                     toggle("4");
                                   }}
                                 >
-                                  {" "}
                                   <div
                                     style={{ justifyContent: "space-between" }}
                                     className="d-flex selectplan"
                                   >
                                     <span style={{ padding: "2.5rem" }}>
-                                      {" "}
                                       PAYMENT DETAILS
-                                    </span>{" "}
+                                    </span>
                                     <img src={step} alt="image" />
                                   </div>
                                 </NavLink>
@@ -205,16 +206,6 @@ export default function ApplyList() {
                                           <option value="Pre-ex Coverage Not Included">
                                             Pre-ex Coverage Not Included
                                           </option>
-                                          {/* {this.state.scriptN?.map(
-                                            allScript => (
-                                              <option
-                                                value={allScript?._id}
-                                                key={allScript?._id}
-                                              >
-                                                {allScript?.scriptName}
-                                              </option>
-                                            )
-                                          )} */}
                                         </CustomInput>
                                       </div>
                                       <div>
@@ -228,7 +219,7 @@ export default function ApplyList() {
                                           className="m-2"
                                         />
                                         <label for="Yes">Yes</label>
-                                        {/* <Label>Yes</Label> */}
+
                                         <Input
                                           type="radio"
                                           id="html"
@@ -251,74 +242,6 @@ export default function ApplyList() {
                                           onChange={handleChange}
                                         />
                                       </div>
-                                      {/* <div className="my-2 mb-4">
-                                        <label>Select Plan</label>
-
-                                        <select
-                                          name="Select Plan"
-                                          onChange={handleChange}
-                                          aria-label="Default select example"
-                                        >
-                                          <option selected>Select Plan</option>
-                                          <option value="1">
-                                            INF Standard
-                                          </option>
-                                          <option value="2">
-                                            INF SAFE TRAVELLER USA 90
-                                          </option>
-                                          <option value="3">
-                                            INF SAFE TRAVELLER USA
-                                          </option>
-                                          <option value="4">
-                                            INF PREMIER PLUS
-                                          </option>
-                                          <option value="5">INF PREMIER</option>
-                                          <option value="6">
-                                            INF ELITE PLUS
-                                          </option>
-                                          <option value="7">
-                                            INF ELITE 90
-                                          </option>
-                                          <option value="8">INF ELITE </option>
-                                        </select>
-                                      </div> */}
-                                      {/* <div>
-                                        <div className="my-2 mb-4">
-                                          <h5 className="py">
-                                            POLICY MAXIMUM:
-                                          </h5>
-                                          <select
-                                            name="POLICY MAXIMUM"
-                                            onChange={handleChange}
-                                          >
-                                            <option selected>
-                                              Select Plan
-                                            </option>
-                                            <option value="1">
-                                              INF Standard
-                                            </option>
-                                            <option value="2">
-                                              INF SAFE TRAVELLER USA 90
-                                            </option>
-                                          </select>
-                                        </div>
-                                      </div> */}
-                                      {/* <div>
-                                        <div className="my-2 mb-4">
-                                          <h5 className="py">
-                                            PREEX DEDUCTIBLE/ MAX:
-                                          </h5>
-                                          <select
-                                            name="PREEX DEDUCTIBLE/MAX"
-                                            onChange={handleChange}
-                                            aria-label="Default select example"
-                                          >
-                                            <option selected>
-                                              Select Plan
-                                            </option>
-                                          </select>
-                                        </div>
-                                      </div> */}
 
                                       <div className="mt-2">
                                         <CustomInput
@@ -354,13 +277,19 @@ export default function ApplyList() {
                                       </div>
                                     </div>
                                   </Col>
+                                  <Col lg="6" md="6" sm="6"></Col>
                                   <Col lg="6" md="6" sm="6">
-                                    {/* <button className="btn get-btn">
-                                      Previous
-                                    </button> */}
-                                  </Col>
-                                  <Col lg="6" md="6" sm="6">
-                                    <button className="btn get-btn">
+                                    <button
+                                      className="btn get-btn"
+                                      onClick={handleNextStep}
+                                      // onClick={
+                                      //   activeStep === 3
+                                      //     ? handleSubmit
+                                      //     : country
+                                      //     ? handleNextStep
+                                      //     : null
+                                      // }
+                                    >
                                       Next
                                     </button>
                                   </Col>

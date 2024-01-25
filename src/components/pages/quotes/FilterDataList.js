@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Col, Label, Row } from "reactstrap";
+// import { Document, Page } from "react-pdf";
 import { useHistory } from "react-router-dom";
 import "../../../assets/scss/easySelect.scss";
 import axiosConfig from "../../../axiosConfig";
@@ -15,13 +16,14 @@ export default function Filters({
 }) {
   const [listData, setListData] = useState([]);
   const [bothDates, setbothDates] = useState({});
-
   const [Index, setIndex] = useState(2);
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [page, setPage] = useState(1);
   const user = useContext(UserContext);
   const history = useHistory();
 
   useEffect(() => {
-    // console.log(duration, user.myState);
     axiosConfig
       .get(`/plan/view-plan`)
       .then(response => {
@@ -35,6 +37,9 @@ export default function Filters({
         console.log(error);
       });
   }, []);
+  // const onDocumentLoadSuccess = ({ numPages }) => {
+  //   setNumPages(numPages);
+  // };
 
   const handlePlanDetails = () => {
     history.push("/Hoptravel");
@@ -387,17 +392,15 @@ export default function Filters({
                           <Col lg="5" md="6" sm="12" className="my-5 ">
                             <Row>
                               <Col lg="6" md="6" sm="12" className="">
-                                {/* <a href="/Hoptravel"> */}
                                 <button
                                   onClick={handlePlanDetails}
                                   className="custombtn"
                                 >
                                   Plan Details
                                 </button>
-                                {/* </a> */}
                               </Col>
                               <Col lg="6" md="6" sm="12" className=" ">
-                                <a href="#">
+                                <a href="https://sec.infplans.com/policyDocs/BMI_Brochure_0_69.pdf">
                                   <button className="custombtn">
                                     View Brochure
                                   </button>

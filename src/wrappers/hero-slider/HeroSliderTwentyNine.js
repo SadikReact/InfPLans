@@ -103,9 +103,6 @@ const HeroSliderTwentyNine = () => {
     setFormValues(newFormValues);
   };
   const handleNextStep = () => {
-    // if (country) {
-    //   setActiveStep(prevStep => (prevStep < 4 ? prevStep + 1 : prevStep));
-    // }
     setActiveStep(prevStep => (prevStep < 4 ? prevStep + 1 : prevStep));
   };
 
@@ -171,10 +168,6 @@ const HeroSliderTwentyNine = () => {
                       value={country}
                       onChange={changeHandler}
                     />
-                    {/* <CountryDropdown
-                      value={country}
-                      onChange={val => handleCountry(val)}
-                    /> */}
                   </div>
                 </div>
                 <div className="col-lg-4 col-xs-12 "></div>
@@ -198,6 +191,7 @@ const HeroSliderTwentyNine = () => {
                     Provide the following details of the traveler. **In adding a
                     dependent, kindly click “Add another traveler”
                   </p>
+
                   <div className="col-3"></div>
                   <div className="col-6">
                     {/* <form onSubmit={handleSubmit}> */}
@@ -238,7 +232,7 @@ const HeroSliderTwentyNine = () => {
                             // className="dropped"
                             // onChange={e => setDateOfBirth(e.target.value)}
                             name="dob"
-                            value={element.dob || ""}
+                            // value={element.dob || ""}
                             onChange={e => handleChange(index, e)}
                           />
                         </div>
@@ -246,8 +240,6 @@ const HeroSliderTwentyNine = () => {
                         <div>
                           {index ? (
                             <span
-                              // type="button"
-                              // className="button remove btn btn-secondary"
                               style={{
                                 color: "red",
                                 cursor: "pointer",
@@ -264,8 +256,6 @@ const HeroSliderTwentyNine = () => {
                     ))}
                     <div className=" my-2">
                       <span
-                        // className="add btn btn-secondary"
-                        // type="button"
                         style={{
                           color: "blue",
                           cursor: "pointer",
@@ -355,7 +345,7 @@ const HeroSliderTwentyNine = () => {
             )}
             <div className="BothBtn d-flex justify-content-around my-4">
               {activeStep === 0 ? null : (
-                <Button className="custombtn2" onClick={handleBackStep}>
+                <Button className="custombtnBck" onClick={handleBackStep}>
                   Back
                 </Button>
               )}
